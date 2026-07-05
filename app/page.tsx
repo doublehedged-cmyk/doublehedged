@@ -139,7 +139,7 @@ function Section({
           <p className="text-xs font-semibold uppercase tracking-[0.32em] text-amber-300">
             {eyebrow}
           </p>
-          <h2 className="mt-4 text-3xl font-semibold text-white sm:text-4xl">
+          <h2 className="mt-4 text-3xl font-semibnew text-white sm:text-4xl">
             {title}
           </h2>
           {description ? (
@@ -165,10 +165,10 @@ function FeatureCard({
 }) {
   return (
     <article className="rounded-lg border border-white/10 bg-white/[0.04] p-6 shadow-2xl shadow-black/20">
-      <div className="flex h-11 w-11 items-center justify-center rounded-full border border-amber-200/30 bg-amber-300/10 text-sm font-bold text-amber-200">
+      <div className="flex h-11 w-11 items-center justify-center rounded-full border border-amber-200/30 bg-amber-300/10 text-sm font-bnew text-amber-200">
         0{index + 1}
       </div>
-      <h3 className="mt-6 text-xl font-semibold text-white">{title}</h3>
+      <h3 className="mt-6 text-xl font-semibnew text-white">{title}</h3>
       <p className="mt-4 leading-7 text-zinc-300">{description}</p>
     </article>
   );
@@ -189,12 +189,12 @@ function CourseCard({
         <span className="text-xs font-semibold uppercase tracking-[0.24em] text-amber-300">
           {level}
         </span>
-        <h3 className="mt-3 text-2xl font-semibold text-white">{title}</h3>
+        <h3 className="mt-3 text-2xl font-semibnew text-white">{title}</h3>
         <p className="mt-3 leading-7 text-zinc-300">{detail}</p>
       </div>
       <a
         href="#courses"
-        className="inline-flex min-h-11 items-center justify-center rounded-full border border-white/15 px-5 text-sm font-semibold text-white transition hover:border-amber-200/60 hover:text-amber-100"
+        className="inline-flex min-h-11 items-center justify-center rounded-full border border-white/15 px-5 text-sm font-semibnew text-white transition hover:border-amber-200/60 hover:text-amber-100"
       >
         View syllabus
       </a>
@@ -217,7 +217,7 @@ function TestimonialCard({
         &ldquo;{quote}&rdquo;
       </blockquote>
       <figcaption className="mt-6 border-t border-white/10 pt-5">
-        <p className="font-semibold text-white">{name}</p>
+        <p className="font-semibnew text-white">{name}</p>
         <p className="mt-1 text-sm text-zinc-400">{role}</p>
       </figcaption>
     </figure>
@@ -227,7 +227,7 @@ function TestimonialCard({
 function FaqItem({ question, answer }: { question: string; answer: string }) {
   return (
     <details className="group rounded-lg border border-white/10 bg-zinc-950/60 p-6">
-      <summary className="flex cursor-pointer list-none items-center justify-between gap-6 text-lg font-semibold text-white">
+      <summary className="flex cursor-pointer list-none items-center justify-between gap-6 text-lg font-semibnew text-white">
         <span>{question}</span>
         <span className="text-2xl font-light text-amber-300 transition group-open:rotate-45">
           +
@@ -244,7 +244,7 @@ export default function Home() {
       <header className="absolute left-0 right-0 top-0 z-20 px-5 py-6 sm:px-8 lg:px-10">
         <nav className="mx-auto flex max-w-7xl items-center justify-between gap-6">
           <a href="#" className="group flex items-center gap-3">
-            <span className="flex h-10 w-10 items-center justify-center rounded-full border border-amber-200/40 bg-black/55 text-sm font-bold text-amber-200">
+            <span className="flex h-10 w-10 items-center justify-center rounded-full border border-amber-200/40 bg-black/55 text-sm font-bnew text-amber-200">
               DH
             </span>
             <span className="text-sm font-semibold uppercase tracking-[0.24em] text-white">
@@ -365,14 +365,14 @@ export default function Home() {
         <div className="grid gap-8 rounded-lg border border-white/10 bg-white/[0.04] p-6 md:grid-cols-[0.9fr_1.3fr] md:p-8">
           <div className="flex min-h-64 items-center justify-center rounded-lg border border-amber-200/20 bg-[radial-gradient(circle_at_50%_30%,rgba(251,191,36,0.22),rgba(24,24,27,0.95)_54%,rgba(7,7,7,1)_100%)]">
             <div className="text-center">
-              <p className="text-5xl font-semibold text-amber-200">DH</p>
+              <p className="text-5xl font-semibnew text-amber-200">DH</p>
               <p className="mt-3 text-xs font-semibold uppercase tracking-[0.28em] text-zinc-400">
                 Trading Mentor
               </p>
             </div>
           </div>
           <div className="self-center">
-            <h3 className="text-2xl font-semibold text-white">
+            <h3 className="text-2xl font-semibnew text-white">
               Learn the discipline behind the setup.
             </h3>
             <p className="mt-4 leading-8 text-zinc-300">
@@ -386,7 +386,7 @@ export default function Home() {
                 (item) => (
                   <div
                     key={item}
-                    className="rounded-lg border border-white/10 bg-black/30 p-4 text-sm font-semibold text-amber-100"
+                    className="rounded-lg border border-white/10 bg-black/30 p-4 text-sm font-semibnew text-amber-100"
                   >
                     {item}
                   </div>
