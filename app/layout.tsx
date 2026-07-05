@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Double Hedge Trading Academy",
+  title: "Bonsai Japan Testing Page",
   description:
-    "A premium trading education platform teaching technical analysis, risk management, trading psychology, and options trading.",
+    "A clean bonsai testing start page featuring Japanese bonsai plants, tree care notes, and a simple input area.",
 };
 
 export default function RootLayout({
