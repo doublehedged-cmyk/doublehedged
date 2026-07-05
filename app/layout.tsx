@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Bonsai Japan Testing Page",
+  title: "Indian Bonsai Artists Page",
   description:
-    "A clean bonsai testing start page featuring Japanese bonsai plants, tree care notes, and a simple input area.",
+    "A clean bonsai page featuring Indian bonsai artists, tropical tree species, care notes, and a simple bonsai note area.",
 };
 
 export default function RootLayout({
