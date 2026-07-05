@@ -74,14 +74,6 @@ const paymentOptions = [
 
 const socialLinks = [
   {
-    name: "Instagram",
-    href: "https://www.instagram.com/",
-  },
-  {
-    name: "Facebook",
-    href: "https://www.facebook.com/",
-  },
-  {
     name: "Twitter",
     href: "https://twitter.com/",
   },
