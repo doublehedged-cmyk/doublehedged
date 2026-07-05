@@ -72,6 +72,21 @@ const paymentOptions = [
   },
 ];
 
+const socialLinks = [
+  {
+    name: "Instagram",
+    href: "https://www.instagram.com/",
+  },
+  {
+    name: "Twitter",
+    href: "https://twitter.com/",
+  },
+  {
+    name: "YouTube",
+    href: "https://www.youtube.com/",
+  },
+];
+
 const testimonials = [
   {
     quote:
@@ -496,19 +511,34 @@ export default function Home() {
               no course or mentor can guarantee profits or specific outcomes.
             </p>
           </div>
-          <div className="flex flex-wrap gap-5">
-            <a className="transition hover:text-amber-200" href="#learn">
-              Learn
-            </a>
-            <a className="transition hover:text-amber-200" href="#courses">
-              Courses
-            </a>
-            <a className="transition hover:text-amber-200" href="#payment">
-              Payment
-            </a>
-            <a className="transition hover:text-amber-200" href="#faq">
-              FAQ
-            </a>
+          <div className="grid gap-4 md:justify-items-end">
+            <div className="flex flex-wrap gap-5">
+              <a className="transition hover:text-amber-200" href="#learn">
+                Learn
+              </a>
+              <a className="transition hover:text-amber-200" href="#courses">
+                Courses
+              </a>
+              <a className="transition hover:text-amber-200" href="#payment">
+                Payment
+              </a>
+              <a className="transition hover:text-amber-200" href="#faq">
+                FAQ
+              </a>
+            </div>
+            <div className="flex flex-wrap gap-3">
+              {socialLinks.map((social) => (
+                <a
+                  key={social.name}
+                  href={social.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="rounded-full border border-white/10 bg-white/[0.04] px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-zinc-300 transition hover:border-amber-200/50 hover:text-amber-200"
+                >
+                  {social.name}
+                </a>
+              ))}
+            </div>
           </div>
         </div>
       </footer>
