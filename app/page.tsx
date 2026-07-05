@@ -51,6 +51,27 @@ const courses = [
   },
 ];
 
+const paymentOptions = [
+  {
+    title: "Foundation Access",
+    subtitle: "Start with the market structure basics",
+    detail:
+      "Includes beginner-friendly lessons, chart reading workflows, and rule-based practice assignments.",
+  },
+  {
+    title: "Core Academy Access",
+    subtitle: "Build a risk-first trading routine",
+    detail:
+      "Includes structured course modules, risk checklists, journaling guidance, and review-based improvement tools.",
+  },
+  {
+    title: "Advanced Options Access",
+    subtitle: "Move into defined-risk options planning",
+    detail:
+      "Includes options foundations, strategy selection, Greeks, expiry behavior, and practical setup planning.",
+  },
+];
+
 const testimonials = [
   {
     quote:
@@ -82,6 +103,11 @@ const faqs = [
     question: "Do I need prior trading experience?",
     answer:
       "No. Beginners can start with foundations, while active traders can move into advanced risk, psychology, and options modules.",
+  },
+  {
+    question: "Is online payment available?",
+    answer:
+      "Yes. Payment is now available for course enrollment. Review the course access option, complete payment through the academy checkout flow, and follow the access instructions shared after enrollment.",
   },
   {
     question: "Will you provide guaranteed profits or tips?",
@@ -193,11 +219,36 @@ function CourseCard({
         <p className="mt-3 leading-7 text-zinc-300">{detail}</p>
       </div>
       <a
-        href="#courses"
+        href="#payment"
         className="inline-flex min-h-11 items-center justify-center rounded-full border border-white/15 px-5 text-sm font-semibnew text-white transition hover:border-amber-200/60 hover:text-amber-100"
       >
-        View syllabus
+        Enroll now
       </a>
+    </article>
+  );
+}
+
+function PaymentCard({
+  title,
+  subtitle,
+  detail,
+}: {
+  title: string;
+  subtitle: string;
+  detail: string;
+}) {
+  return (
+    <article className="rounded-lg border border-amber-200/20 bg-[linear-gradient(180deg,rgba(251,191,36,0.09),rgba(255,255,255,0.035))] p-6 shadow-2xl shadow-black/20">
+      <p className="text-xs font-semibold uppercase tracking-[0.24em] text-amber-300">
+        Payment available
+      </p>
+      <h3 className="mt-4 text-2xl font-semibnew text-white">{title}</h3>
+      <p className="mt-2 text-sm font-semibold text-amber-100">{subtitle}</p>
+      <p className="mt-4 leading-7 text-zinc-300">{detail}</p>
+      <div className="mt-6 rounded-lg border border-white/10 bg-black/30 p-4 text-sm leading-6 text-zinc-300">
+        Select this course in the checkout flow and complete payment to receive
+        access instructions.
+      </div>
     </article>
   );
 }
@@ -258,6 +309,9 @@ export default function Home() {
             <a className="transition hover:text-amber-200" href="#courses">
               Courses
             </a>
+            <a className="transition hover:text-amber-200" href="#payment">
+              Payment
+            </a>
             <a className="transition hover:text-amber-200" href="#mentor">
               Mentor
             </a>
@@ -292,7 +346,7 @@ export default function Home() {
               disciplined decision-making.
             </p>
             <div className="mt-9 flex flex-col gap-4 sm:flex-row">
-              <ButtonLink href="#masterclass">Join Free Masterclass</ButtonLink>
+              <ButtonLink href="#payment">Enroll & Pay Now</ButtonLink>
               <ButtonLink href="#courses" variant="secondary">
                 Explore Courses
               </ButtonLink>
@@ -341,6 +395,32 @@ export default function Home() {
           {courses.map((course) => (
             <CourseCard key={course.title} {...course} />
           ))}
+        </div>
+      </Section>
+
+      <Section
+        id="payment"
+        eyebrow="Payment"
+        title="Payment is now available for course enrollment"
+        description="Choose the learning path that matches your current stage, complete payment through the academy checkout flow, and follow the access instructions after enrollment."
+      >
+        <div className="grid gap-5 lg:grid-cols-3">
+          {paymentOptions.map((option) => (
+            <PaymentCard key={option.title} {...option} />
+          ))}
+        </div>
+        <div className="mt-8 grid gap-6 rounded-lg border border-white/10 bg-zinc-950/70 p-6 md:grid-cols-[1fr_auto] md:items-center md:p-8">
+          <div>
+            <h3 className="text-2xl font-semibnew text-white">
+              Ready to begin with a structured trading education plan?
+            </h3>
+            <p className="mt-4 max-w-3xl leading-8 text-zinc-300">
+              Payment confirms course enrollment only. Trading and investing
+              still involve risk, and the academy focuses on education,
+              preparation, and disciplined risk-aware decision making.
+            </p>
+          </div>
+          <ButtonLink href="#courses">Review courses</ButtonLink>
         </div>
       </Section>
 
@@ -422,6 +502,9 @@ export default function Home() {
             </a>
             <a className="transition hover:text-amber-200" href="#courses">
               Courses
+            </a>
+            <a className="transition hover:text-amber-200" href="#payment">
+              Payment
             </a>
             <a className="transition hover:text-amber-200" href="#faq">
               FAQ
