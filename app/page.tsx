@@ -61,6 +61,13 @@ const platformNotes = [
   "Designed for learners who want structure before execution",
 ];
 
+const socialLinks = [
+  { name: "X", label: "Follow on X", href: "#" },
+  { name: "IG", label: "Follow on Instagram", href: "#" },
+  { name: "YT", label: "Watch on YouTube", href: "#" },
+  { name: "IN", label: "Connect on LinkedIn", href: "#" },
+];
+
 function ButtonLink({
   children,
   href,
@@ -183,6 +190,26 @@ function ProcessStep({ step, index }: { step: string; index: number }) {
       </span>
       <p className="leading-7 text-zinc-100">{step}</p>
     </div>
+  );
+}
+
+function SocialButton({
+  name,
+  label,
+  href,
+}: {
+  name: string;
+  label: string;
+  href: string;
+}) {
+  return (
+    <a
+      href={href}
+      aria-label={label}
+      className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-amber-200/20 bg-white/[0.04] text-xs font-bold text-amber-100 transition hover:border-amber-200/60 hover:bg-amber-300 hover:text-zinc-950"
+    >
+      {name}
+    </a>
   );
 }
 
@@ -373,7 +400,7 @@ export default function Home() {
       </Section>
 
       <footer className="border-t border-white/10 px-5 py-10 sm:px-8 lg:px-10">
-        <div className="mx-auto grid max-w-7xl gap-4 text-sm text-zinc-400 md:grid-cols-[1fr_auto] md:items-center">
+        <div className="mx-auto grid max-w-7xl gap-8 text-sm text-zinc-400 md:grid-cols-[1fr_auto] md:items-center">
           <div>
             <p className="font-semibold uppercase tracking-[0.24em] text-white">
               Trading Learning Academy
@@ -383,16 +410,26 @@ export default function Home() {
               analysis, risk management, psychology, and responsible practice.
             </p>
           </div>
-          <div className="flex flex-wrap gap-5 md:justify-end">
-            <a className="transition hover:text-amber-200" href="#mentors">
-              Academy
-            </a>
-            <a className="transition hover:text-amber-200" href="#tracks">
-              Tracks
-            </a>
-            <a className="transition hover:text-amber-200" href="#process">
-              Process
-            </a>
+          <div className="grid gap-5 md:justify-items-end">
+            <div className="flex flex-wrap gap-5 md:justify-end">
+              <a className="transition hover:text-amber-200" href="#mentors">
+                Academy
+              </a>
+              <a className="transition hover:text-amber-200" href="#tracks">
+                Tracks
+              </a>
+              <a className="transition hover:text-amber-200" href="#process">
+                Process
+              </a>
+            </div>
+            <div className="flex flex-wrap items-center gap-3 md:justify-end">
+              <span className="mr-1 text-xs font-semibold uppercase tracking-[0.22em] text-zinc-500">
+                Social
+              </span>
+              {socialLinks.map((social) => (
+                <SocialButton key={social.label} {...social} />
+              ))}
+            </div>
           </div>
         </div>
       </footer>
