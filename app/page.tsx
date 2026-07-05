@@ -136,6 +136,41 @@ const faqs = [
   },
 ];
 
+function SocialIcon({ name }: { name: string }) {
+  if (name === "Instagram") {
+    return (
+      <svg
+        aria-hidden="true"
+        viewBox="0 0 24 24"
+        className="h-5 w-5"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <rect x="3" y="3" width="18" height="18" rx="5" />
+        <circle cx="12" cy="12" r="4" />
+        <circle cx="17.3" cy="6.7" r="0.8" fill="currentColor" stroke="none" />
+      </svg>
+    );
+  }
+
+  if (name === "Twitter") {
+    return (
+      <svg aria-hidden="true" viewBox="0 0 24 24" className="h-5 w-5" fill="currentColor">
+        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817-5.967 6.817H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.45-6.231Zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77Z" />
+      </svg>
+    );
+  }
+
+  return (
+    <svg aria-hidden="true" viewBox="0 0 24 24" className="h-5 w-5" fill="currentColor">
+      <path d="M21.58 7.2a2.74 2.74 0 0 0-1.93-1.94C17.94 4.8 12 4.8 12 4.8s-5.94 0-7.65.46A2.74 2.74 0 0 0 2.42 7.2 28.54 28.54 0 0 0 1.96 12a28.54 28.54 0 0 0 .46 4.8 2.74 2.74 0 0 0 1.93 1.94c1.71.46 7.65.46 7.65.46s5.94 0 7.65-.46a2.74 2.74 0 0 0 1.93-1.94 28.54 28.54 0 0 0 .46-4.8 28.54 28.54 0 0 0-.46-4.8ZM9.99 15.28V8.72L15.44 12l-5.45 3.28Z" />
+    </svg>
+  );
+}
+
 function ButtonLink({
   children,
   href,
@@ -526,16 +561,19 @@ export default function Home() {
                 FAQ
               </a>
             </div>
-            <div className="flex flex-wrap gap-3">
+            <div className="flex flex-wrap gap-3 md:justify-end">
               {socialLinks.map((social) => (
                 <a
                   key={social.name}
                   href={social.href}
                   target="_blank"
                   rel="noreferrer"
-                  className="rounded-full border border-white/10 bg-white/[0.04] px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-zinc-300 transition hover:border-amber-200/50 hover:text-amber-200"
+                  aria-label={`Visit Double Hedge on ${social.name}`}
+                  title={social.name}
+                  className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-white/[0.04] text-zinc-300 transition hover:border-amber-200/50 hover:bg-amber-300/10 hover:text-amber-200"
                 >
-                  {social.name}
+                  <SocialIcon name={social.name} />
+                  <span className="sr-only">{social.name}</span>
                 </a>
               ))}
             </div>
