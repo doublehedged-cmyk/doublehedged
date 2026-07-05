@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Indian Bonsai Artists Page",
+  title: "Trading Learning Academy",
   description:
-    "A clean bonsai page featuring Indian bonsai artists, tropical tree species, care notes, and a simple bonsai note area.",
+    "A premium trading education page focused on market foundations, technical analysis, risk management, psychology, and responsible practice.",
 };
 
 export default function RootLayout({
