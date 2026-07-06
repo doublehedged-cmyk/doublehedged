@@ -11,6 +11,25 @@ const painPoints = [
   "Confusing indicators with strategy",
 ];
 
+const trustBadges = [
+  {
+    title: "Lifetime lesson access",
+    copy: "Revisit modules whenever you need to rebuild a concept.",
+  },
+  {
+    title: "Certificate of completion",
+    copy: "Complete the structured path and document your learning.",
+  },
+  {
+    title: "Weekly review rooms",
+    copy: "Bring charts, journals, and mistakes for structured review.",
+  },
+  {
+    title: "Mobile-first access",
+    copy: "Learn from phone, tablet, or desktop between market sessions.",
+  },
+];
+
 const learningPaths = [
   {
     title: "Beginner Trader",
@@ -36,6 +55,52 @@ const learningPaths = [
     title: "Advanced Execution",
     tag: "E",
     copy: "15-minute and 75-minute planning, confirmation logic, entry checklist, exit rules, and no-overtrading systems.",
+  },
+];
+
+const subscriptionPlans = [
+  {
+    title: "Starter",
+    eyebrow: "For new traders",
+    price: "₹999",
+    oldPrice: "₹1,999",
+    cadence: "one-time launch access",
+    cta: "Start Learning",
+    features: [
+      "Beginner Trader path",
+      "Candlestick and level basics",
+      "Risk-first checklist",
+      "Community learning room",
+    ],
+  },
+  {
+    title: "Pro Trader",
+    eyebrow: "Most popular",
+    price: "₹2,999",
+    oldPrice: "₹4,999",
+    cadence: "structured subscription",
+    cta: "Choose Pro",
+    featured: true,
+    features: [
+      "All learning paths",
+      "Options Learner modules",
+      "Simulator practice workflow",
+      "Weekly chart review sessions",
+    ],
+  },
+  {
+    title: "Execution Lab",
+    eyebrow: "For serious practice",
+    price: "₹7,999",
+    oldPrice: "₹11,999",
+    cadence: "advanced cohort access",
+    cta: "Join Lab",
+    features: [
+      "Advanced Execution path",
+      "Trade journal review",
+      "15-minute and 75-minute planning",
+      "Mistake correction frameworks",
+    ],
   },
 ];
 
@@ -119,6 +184,34 @@ const trustBlocks = [
   "Indian market examples",
   "Beginner to advanced path",
   "No advisory positioning",
+];
+
+const buyingJourney = [
+  "Pick your learning path",
+  "Pay securely by UPI, card, or net banking",
+  "Get instant dashboard access",
+  "Join clean learning rooms",
+  "Practice with journals and simulator workflows",
+  "Review mistakes before increasing risk",
+];
+
+const campaignBlocks = [
+  {
+    title: "Instagram reels",
+    copy: "Short chart breakdowns, risk lessons, and mistake reviews that lead viewers to the learning path.",
+  },
+  {
+    title: "YouTube explainers",
+    copy: "Long-form NIFTY, BANKNIFTY, options, and psychology lessons that build trust before purchase.",
+  },
+  {
+    title: "Telegram broadcast",
+    copy: "Announcements, study reminders, webinar links, and educational notes. No calls. No hype.",
+  },
+  {
+    title: "Payment funnel",
+    copy: "Clear plan comparison, secure checkout cues, UPI-friendly pricing, and post-payment onboarding.",
+  },
 ];
 
 const faqs = [
@@ -265,6 +358,69 @@ function LearningCard({
   );
 }
 
+function PriceCard({
+  title,
+  eyebrow,
+  price,
+  oldPrice,
+  cadence,
+  cta,
+  features,
+  featured = false,
+}: {
+  title: string;
+  eyebrow: string;
+  price: string;
+  oldPrice: string;
+  cadence: string;
+  cta: string;
+  features: string[];
+  featured?: boolean;
+}) {
+  return (
+    <article
+      className={`relative rounded-lg border p-6 shadow-2xl backdrop-blur-xl ${
+        featured
+          ? "border-cyan-200/55 bg-cyan-300/[0.11] shadow-cyan-950/30"
+          : "border-white/10 bg-white/[0.055] shadow-black/25"
+      }`}
+    >
+      {featured ? (
+        <div className="absolute right-5 top-5 rounded-full bg-cyan-300 px-3 py-1 text-xs font-bold uppercase tracking-[0.18em] text-slate-950">
+          Best value
+        </div>
+      ) : null}
+      <p className="text-xs font-semibold uppercase tracking-[0.26em] text-cyan-300">
+        {eyebrow}
+      </p>
+      <h3 className="mt-4 text-2xl font-semibold text-white">{title}</h3>
+      <div className="mt-6 flex items-end gap-3">
+        <span className="text-4xl font-semibold text-white">{price}</span>
+        <span className="pb-1 text-sm text-slate-500 line-through">{oldPrice}</span>
+      </div>
+      <p className="mt-2 text-sm text-slate-400">{cadence}</p>
+      <ul className="mt-7 grid gap-3 text-sm text-slate-200">
+        {features.map((feature) => (
+          <li key={feature} className="flex gap-3">
+            <span className="mt-2 h-2 w-2 rounded-full bg-emerald-300 shadow-[0_0_14px_rgba(52,211,153,0.7)]" />
+            <span>{feature}</span>
+          </li>
+        ))}
+      </ul>
+      <a
+        href="#checkout"
+        className={`mt-8 inline-flex min-h-12 w-full items-center justify-center rounded-full border px-5 text-sm font-semibold transition ${
+          featured
+            ? "border-cyan-200 bg-cyan-300 text-slate-950 hover:bg-cyan-200"
+            : "border-white/15 bg-white/[0.06] text-white hover:border-cyan-200/60"
+        }`}
+      >
+        {cta}
+      </a>
+    </article>
+  );
+}
+
 function FrameworkShield() {
   return (
     <div className="relative mx-auto aspect-square w-full max-w-md">
@@ -309,7 +465,11 @@ export default function Home() {
     <main className="min-h-screen overflow-hidden bg-[#03060b] text-slate-100">
       <div className="fixed inset-0 -z-10 bg-[radial-gradient(circle_at_20%_10%,rgba(34,211,238,0.14),transparent_32%),radial-gradient(circle_at_75%_18%,rgba(37,99,235,0.16),transparent_34%),radial-gradient(circle_at_52%_82%,rgba(34,197,94,0.08),transparent_30%),linear-gradient(180deg,#03060b,#050713_42%,#020306)]" />
 
-      <header className="absolute left-0 right-0 top-0 z-30 px-5 py-6 sm:px-8 lg:px-10">
+      <div className="absolute left-0 right-0 top-0 z-40 border-b border-cyan-200/10 bg-cyan-300/[0.08] px-5 py-2 text-center text-xs font-semibold uppercase tracking-[0.22em] text-cyan-100 backdrop-blur-xl">
+        Launch access open · Save 20% on first enrollment · Education only
+      </div>
+
+      <header className="absolute left-0 right-0 top-9 z-30 px-5 py-6 sm:px-8 lg:px-10">
         <nav className="mx-auto flex max-w-7xl items-center justify-between gap-6">
           <a href="#" className="flex items-center gap-3">
             <span className="grid h-11 w-11 place-items-center rounded-full border border-cyan-200/40 bg-cyan-300/10 text-sm font-bold text-cyan-100 shadow-[0_0_32px_rgba(34,211,238,0.18)]">
@@ -322,14 +482,16 @@ export default function Home() {
           <div className="hidden items-center gap-7 text-sm font-medium text-slate-300 lg:flex">
             <a className="transition hover:text-cyan-200" href="#problem">Problem</a>
             <a className="transition hover:text-cyan-200" href="#learning">Paths</a>
+            <a className="transition hover:text-cyan-200" href="#pricing">Pricing</a>
             <a className="transition hover:text-cyan-200" href="#method">Method</a>
             <a className="transition hover:text-cyan-200" href="#simulator">Simulator</a>
+            <a className="transition hover:text-cyan-200" href="#checkout">Pay</a>
             <a className="transition hover:text-cyan-200" href="#faq">FAQ</a>
           </div>
         </nav>
       </header>
 
-      <section className="relative grid min-h-screen items-center px-5 pb-16 pt-28 sm:px-8 lg:px-10">
+      <section className="relative grid min-h-screen items-center px-5 pb-16 pt-36 sm:px-8 lg:px-10">
         <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(3,6,11,0.96)_0%,rgba(3,6,11,0.78)_42%,rgba(3,6,11,0.35)_100%)]" />
         <div className="relative z-10 mx-auto grid w-full max-w-7xl gap-12 lg:grid-cols-[0.92fr_1.08fr] lg:items-center">
           <div>
@@ -348,14 +510,21 @@ export default function Home() {
               Learn to trade with protection before prediction.
             </p>
             <div className="mt-9 flex flex-col gap-4 sm:flex-row">
-              <ButtonLink href="#learning">Start Learning</ButtonLink>
-              <ButtonLink href="#method" variant="secondary">
+              <ButtonLink href="#pricing">Start Learning</ButtonLink>
+              <ButtonLink href="#learning" variant="secondary">
                 See Learning Path
               </ButtonLink>
             </div>
             <p className="mt-5 text-sm leading-6 text-slate-400">
               Education only. No tips. No guaranteed returns. No advisory.
             </p>
+            <div className="mt-8 grid max-w-xl gap-3 sm:grid-cols-3">
+              {["Secure checkout", "Instant access", "UPI friendly"].map((item) => (
+                <div key={item} className="rounded-lg border border-white/10 bg-white/[0.045] p-3 text-center text-xs font-semibold text-slate-200 backdrop-blur-xl">
+                  {item}
+                </div>
+              ))}
+            </div>
           </div>
 
           <div className="relative">
@@ -374,6 +543,17 @@ export default function Home() {
               </div>
             </div>
           </div>
+        </div>
+      </section>
+
+      <section className="px-5 pb-8 sm:px-8 lg:px-10">
+        <div className="mx-auto grid max-w-7xl gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {trustBadges.map((badge) => (
+            <div key={badge.title} className="rounded-lg border border-white/10 bg-white/[0.045] p-5 backdrop-blur-xl">
+              <h3 className="font-semibold text-white">{badge.title}</h3>
+              <p className="mt-2 text-sm leading-6 text-slate-400">{badge.copy}</p>
+            </div>
+          ))}
         </div>
       </section>
 
@@ -412,6 +592,22 @@ export default function Home() {
       </Section>
 
       <Section
+        id="pricing"
+        eyebrow="Featured subscriptions"
+        title="Choose the level that matches your current trading maturity."
+        description="The buying decision should feel simple: start with foundations, upgrade for options and weekly reviews, or join the execution lab when you are ready for deeper practice."
+      >
+        <div className="grid gap-5 lg:grid-cols-3">
+          {subscriptionPlans.map((plan) => (
+            <PriceCard key={plan.title} {...plan} />
+          ))}
+        </div>
+        <p className="mt-5 text-sm leading-6 text-slate-500">
+          Prices shown are launch placeholders for campaign layout. Replace them with final checkout prices before running ads.
+        </p>
+      </Section>
+
+      <Section
         id="learning"
         eyebrow="Learning paths"
         title="Five routes from market basics to disciplined execution"
@@ -421,6 +617,48 @@ export default function Home() {
           {learningPaths.map((path) => (
             <LearningCard key={path.title} {...path} />
           ))}
+        </div>
+      </Section>
+
+      <Section
+        id="checkout"
+        eyebrow="Digital payment flow"
+        title="From campaign click to classroom access in one calm buying journey."
+        description="A subscription website should answer the buyer's real questions quickly: what do I get, how do I pay, when do I get access, and why should I trust this platform?"
+      >
+        <div className="grid gap-8 rounded-lg border border-white/10 bg-white/[0.045] p-6 backdrop-blur-xl lg:grid-cols-[0.9fr_1.1fr] lg:p-8">
+          <div className="rounded-lg border border-cyan-200/15 bg-slate-950/80 p-6">
+            <p className="text-xs font-semibold uppercase tracking-[0.26em] text-cyan-300">
+              Checkout preview
+            </p>
+            <h3 className="mt-4 text-2xl font-semibold text-white">
+              Double Hedged Pro Trader
+            </h3>
+            <div className="mt-6 rounded-lg border border-white/10 bg-black/35 p-5">
+              <div className="flex items-center justify-between gap-4">
+                <span className="text-slate-300">Launch price</span>
+                <span className="text-3xl font-semibold text-white">₹2,999</span>
+              </div>
+              <div className="mt-5 grid gap-3 text-sm text-slate-300">
+                {["UPI", "Credit / debit card", "Net banking", "Wallets"].map((method) => (
+                  <div key={method} className="rounded-md border border-white/10 bg-white/[0.04] p-3">
+                    {method}
+                  </div>
+                ))}
+              </div>
+            </div>
+            <ButtonLink href="#pricing">Compare Plans</ButtonLink>
+          </div>
+          <div className="grid gap-3 sm:grid-cols-2">
+            {buyingJourney.map((step, index) => (
+              <div key={step} className="rounded-lg border border-white/10 bg-black/25 p-5">
+                <span className="text-xs font-semibold uppercase tracking-[0.24em] text-cyan-300">
+                  Step {index + 1}
+                </span>
+                <p className="mt-3 font-semibold text-white">{step}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </Section>
 
@@ -535,6 +773,23 @@ export default function Home() {
         </div>
       </Section>
 
+      <Section
+        id="campaign"
+        eyebrow="Campaign and social engine"
+        title="Every channel should sell trust before it sells the subscription."
+        description="A strong trading education brand does not need income screenshots. It needs consistent lessons, clean positioning, and a simple route from content to checkout."
+      >
+        <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
+          {campaignBlocks.map((block) => (
+            <GlassCard key={block.title}>
+              <div className="h-2 w-16 rounded-full bg-gradient-to-r from-cyan-300 to-blue-500" />
+              <h3 className="mt-6 text-xl font-semibold text-white">{block.title}</h3>
+              <p className="mt-4 leading-7 text-slate-300">{block.copy}</p>
+            </GlassCard>
+          ))}
+        </div>
+      </Section>
+
       <Section id="faq" eyebrow="FAQ" title="Clear answers before you start">
         <div className="grid gap-4 lg:grid-cols-2">
           {faqs.map((faq) => (
@@ -552,6 +807,17 @@ export default function Home() {
             <p className="mt-4 max-w-xl text-base leading-8 text-slate-300">
               Premium Indian stock market education for traders who want protection before prediction.
             </p>
+            <div className="mt-6 flex flex-wrap gap-3">
+              {["Download app", "YouTube", "Instagram", "Telegram", "Support"].map((item) => (
+                <a
+                  key={item}
+                  href="#"
+                  className="rounded-full border border-white/10 bg-white/[0.045] px-4 py-2 text-xs font-semibold text-slate-200 transition hover:border-cyan-200/50 hover:text-cyan-100"
+                >
+                  {item}
+                </a>
+              ))}
+            </div>
           </div>
           <div className="rounded-lg border border-white/10 bg-white/[0.04] p-6 leading-7">
             <p className="font-semibold text-white">Compliance disclaimer</p>

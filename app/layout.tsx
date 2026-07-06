@@ -4,7 +4,7 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "Double Hedged | Indian Stock Market Trading Education",
   description:
-    "Double Hedged is a premium Indian trading education platform for market structure, technical analysis, options logic, futures discipline, risk control, psychology, and chart-based decision-making.",
+    "Double Hedged is a premium Indian trading education subscription for market structure, technical analysis, options logic, futures discipline, risk control, psychology, and chart-based decision-making.",
   keywords: [
     "Double Hedged",
     "Indian stock market education",
@@ -14,6 +14,8 @@ export const metadata: Metadata = {
     "trading psychology",
     "risk management trading",
     "options trading education India",
+    "trading course subscription India",
+    "stock market learning app India",
   ],
 };
 
