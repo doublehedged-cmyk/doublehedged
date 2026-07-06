@@ -9,13 +9,15 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@types/three": "^0.185.0",
     "dotenv": "^17.4.2",
     "next": "16.2.10",
     "node-telegram-bot-api": "^1.1.2",
     "openai": "^6.45.0",
     "react": "19.2.4",
     "react-dom": "19.2.4",
-    "simple-git": "^3.36.0"
+    "simple-git": "^3.36.0",
+    "three": "^0.185.1"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
@@ -24,6 +26,7 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.2.10",
+    "playwright": "^1.61.1",
     "tailwindcss": "^4",
     "typescript": "^5"
   }
