@@ -214,6 +214,13 @@ const campaignBlocks = [
   },
 ];
 
+const socialLinks = [
+  { label: "YouTube", href: "https://www.youtube.com/" },
+  { label: "X", href: "https://x.com/" },
+  { label: "Instagram", href: "https://www.instagram.com/" },
+  { label: "Facebook", href: "https://www.facebook.com/" },
+];
+
 const faqs = [
   {
     question: "Is Double Hedged a tips platform?",
@@ -808,15 +815,24 @@ export default function Home() {
               Premium Indian stock market education for traders who want protection before prediction.
             </p>
             <div className="mt-6 flex flex-wrap gap-3">
-              {["Download app", "YouTube", "Instagram", "Telegram", "Support"].map((item) => (
+              {socialLinks.map((item) => (
                 <a
-                  key={item}
-                  href="#"
+                  key={item.label}
+                  href={item.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`Open Double Hedged on ${item.label}`}
                   className="rounded-full border border-white/10 bg-white/[0.045] px-4 py-2 text-xs font-semibold text-slate-200 transition hover:border-cyan-200/50 hover:text-cyan-100"
                 >
-                  {item}
+                  {item.label}
                 </a>
               ))}
+              <a
+                href="mailto:support@doublehedged.com"
+                className="rounded-full border border-white/10 bg-white/[0.045] px-4 py-2 text-xs font-semibold text-slate-200 transition hover:border-cyan-200/50 hover:text-cyan-100"
+              >
+                Support
+              </a>
             </div>
           </div>
           <div className="rounded-lg border border-white/10 bg-white/[0.04] p-6 leading-7">
