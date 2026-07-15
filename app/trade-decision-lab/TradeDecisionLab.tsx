@@ -3,6 +3,7 @@
 import { ChangeEvent, MouseEvent, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import styles from "./lab.module.css";
+import MindsetCompass from "./MindsetCompass";
 
 const setupItems = [
   "Trend confirmed",
@@ -145,11 +146,14 @@ export default function TradeDecisionLab() {
         <Link href="/" className={styles.back}>← Back to learning</Link>
       </header>
 
-      <div className={styles.hero}>
-        <p className={styles.kicker}>Pre-trade discipline system</p>
-        <h1>Trade Decision <em>Lab</em></h1>
-        <blockquote>“If you can&apos;t justify the trade, you shouldn&apos;t take it.”</blockquote>
-        <p>Complete every gate before making a live decision. This tool records judgment; it does not place a broker order.</p>
+      <div className={styles.heroShell}>
+        <div className={styles.hero}>
+          <p className={styles.kicker}>Pre-trade discipline system</p>
+          <h1>Trade Decision <em>Lab</em></h1>
+          <blockquote>“If you can&apos;t justify the trade, you shouldn&apos;t take it.”</blockquote>
+          <p>Complete every gate before making a live decision. This tool records judgment; it does not place a broker order.</p>
+        </div>
+        <MindsetCompass />
       </div>
 
       <div className={styles.layout}>
