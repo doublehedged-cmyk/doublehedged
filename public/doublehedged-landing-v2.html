@@ -1,0 +1,1035 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Double Hedged — Master the market, before it tests you</title>
+<meta name="description" content="Double Hedged is a premium Indian trading education platform. Market structure, options logic, risk control, and psychology — protection before prediction.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..700,50,0;1,9..144,300..700,50,1&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  /* ================= DESIGN TOKENS ================= */
+  :root{
+    --paper:#F6F2E9;        /* warm cream */
+    --paper-2:#EFE9DC;      /* deeper cream */
+    --sage:#E7EFE3;         /* pale green */
+    --ink:#211D19;          /* warm near-black */
+    --ink-soft:#5C554C;     /* muted brown-grey */
+    --wine:#5C0036;         /* deep wine */
+    --orange:#F05400;       /* burnt orange */
+    --peach:#F8C09A;
+    --line:color-mix(in srgb, var(--ink) 16%, transparent);
+    --line-strong:color-mix(in srgb, var(--ink) 40%, transparent);
+    --serif:'Fraunces',Georgia,serif;
+    --sans:'Inter',-apple-system,sans-serif;
+    --maxw:1240px;
+  }
+  /* ============ DARK THEME (moon) ============ */
+  body.dark{
+    --paper:#16120E;
+    --paper-2:#1E1812;
+    --sage:#18211A;
+    --ink:#F1EAD9;
+    --ink-soft:#A89F8E;
+    --wine:#C2497F;
+    --orange:#FF7A33;
+    --peach:#F8C09A;
+  }
+  body,header,section,footer,.pcard,.marquee-band,.ind-band,.topline{
+    transition:background-color .5s ease,color .5s ease,border-color .5s ease;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--paper);color:var(--ink);
+    font-family:var(--sans);font-size:16.5px;line-height:1.65;
+    -webkit-font-smoothing:antialiased;overflow-x:hidden;
+  }
+  ::selection{background:var(--wine);color:var(--paper)}
+
+  /* faint paper texture */
+  body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.5;
+    background:
+      radial-gradient(1100px 600px at 85% -5%, rgba(240,84,0,.05), transparent 60%),
+      radial-gradient(900px 700px at 0% 100%, rgba(92,0,54,.05), transparent 55%);
+  }
+
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 clamp(20px,4vw,48px)}
+  section{padding:clamp(72px,9vw,130px) 0;position:relative}
+
+  /* ================= TYPE ================= */
+  .display{
+    font-family:var(--serif);
+    font-weight:420;
+    letter-spacing:-.015em;
+    line-height:1.04;
+  }
+  em.cal{
+    font-family:var(--serif);
+    font-style:italic;
+    font-weight:380;
+    font-variation-settings:"SOFT" 80,"WONK" 1;
+    letter-spacing:0;
+  }
+  .eyebrow{
+    display:flex;align-items:center;gap:14px;
+    font-size:12px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;
+    color:var(--ink-soft);margin-bottom:26px;
+  }
+  .eyebrow::after{content:"";height:1px;flex:0 0 56px;background:var(--line-strong)}
+  .eyebrow .no{font-family:var(--serif);font-style:italic;font-weight:400;
+    font-size:15px;color:var(--orange);letter-spacing:0;text-transform:none}
+  h2{font-family:var(--serif);font-weight:420;letter-spacing:-.015em;line-height:1.08;
+    font-size:clamp(34px,4.8vw,58px);max-width:840px}
+  .sub{color:var(--ink-soft);font-size:17.5px;max-width:600px;margin-top:22px}
+
+  /* reveal */
+  .reveal{opacity:0;transform:translateY(28px);transition:opacity .8s ease,transform .8s cubic-bezier(.2,.65,.3,1)}
+  .reveal.in{opacity:1;transform:none}
+  .d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}
+
+  /* ================= BUTTONS & LINKS ================= */
+  .btn{
+    display:inline-flex;align-items:center;gap:12px;
+    font-family:var(--sans);font-weight:600;font-size:15px;letter-spacing:.01em;
+    padding:17px 34px;border-radius:100px;text-decoration:none;cursor:pointer;
+    transition:all .3s cubic-bezier(.4,0,.2,1);border:1.5px solid var(--ink);
+  }
+  .btn-ink{background:var(--ink);color:var(--paper)}
+  .btn-ink:hover{background:var(--wine);border-color:var(--wine);color:#F6F2E9;transform:translateY(-2px);
+    box-shadow:0 14px 30px -12px rgba(92,0,54,.45)}
+  .btn-line{background:transparent;color:var(--ink)}
+  .btn-line:hover{background:var(--ink);color:var(--paper);transform:translateY(-2px)}
+  .btn .o{transition:transform .3s}
+  .btn:hover .o{transform:translateX(5px)}
+  .link-cal{
+    font-family:var(--serif);font-style:italic;font-size:19px;color:var(--wine);
+    text-decoration:none;position:relative;padding-bottom:3px;
+  }
+  .link-cal::after{content:"";position:absolute;left:0;bottom:0;width:100%;height:1.5px;
+    background:var(--orange);transform:scaleX(.35);transform-origin:left;transition:transform .35s}
+  .link-cal:hover::after{transform:scaleX(1)}
+
+  /* ================= TOP BAR + NAV ================= */
+  .topline{
+    text-align:center;font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;
+    padding:10px 16px;color:#F6F2E9;background:var(--wine);
+  }
+  .topline em{font-family:var(--serif);font-style:italic;text-transform:none;
+    letter-spacing:.02em;font-size:14px;color:#f4c9a8}
+  header{
+    position:sticky;top:0;z-index:100;
+    background:color-mix(in srgb, var(--paper) 86%, transparent);
+    backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+    border-bottom:1px solid var(--line);
+  }
+  /* theme dots (sun / moon / random) */
+  .theme-dots{display:flex;gap:8px;align-items:center}
+  .theme-dots button{
+    width:36px;height:36px;border-radius:50%;cursor:pointer;
+    border:1.5px solid var(--ink);background:transparent;color:var(--ink);
+    display:grid;place-items:center;transition:all .3s;padding:0;
+  }
+  .theme-dots button svg{width:16px;height:16px}
+  .theme-dots button:hover,.theme-dots button.active{
+    background:var(--ink);color:var(--paper);transform:translateY(-2px);
+  }
+  .nav{display:flex;align-items:center;justify-content:space-between;height:76px}
+  .logo{font-family:var(--serif);font-size:24px;font-weight:500;color:var(--ink);
+    text-decoration:none;letter-spacing:-.01em}
+  .logo em{font-style:italic;font-weight:400;color:var(--wine);
+    font-variation-settings:"SOFT" 80,"WONK" 1}
+  .nav-links{display:flex;gap:34px}
+  .nav-links a{
+    color:var(--ink-soft);text-decoration:none;font-size:14.5px;font-weight:500;
+    position:relative;padding-bottom:3px;transition:color .25s;
+  }
+  .nav-links a::after{content:"";position:absolute;left:0;bottom:0;width:100%;height:1.5px;
+    background:var(--orange);transform:scaleX(0);transform-origin:left;transition:transform .3s}
+  .nav-links a:hover{color:var(--ink)}
+  .nav-links a:hover::after{transform:scaleX(1)}
+  .nav .btn{padding:12px 26px;font-size:13.5px}
+  .burger{display:none;background:none;border:1.5px solid var(--ink);border-radius:100px;
+    width:44px;height:44px;cursor:pointer;color:var(--ink);font-size:17px}
+  .mobile-menu{display:none;flex-direction:column;padding:8px 24px 22px;border-top:1px solid var(--line);background:var(--paper)}
+  .mobile-menu a{color:var(--ink);text-decoration:none;padding:13px 4px;font-size:17px;
+    font-family:var(--serif);border-bottom:1px solid var(--line)}
+  .mobile-menu.open{display:flex}
+
+  /* ================= HERO ================= */
+  .hero{padding:clamp(70px,9vw,120px) 0 clamp(60px,7vw,100px)}
+  .hero-kicker{display:flex;align-items:center;gap:16px;margin-bottom:34px;flex-wrap:wrap}
+  .hero-kicker .tag{
+    font-size:12px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-soft);
+  }
+  .hero-kicker .dotline{height:1px;width:70px;background:var(--line-strong)}
+  .hero-kicker .script{font-family:var(--serif);font-style:italic;font-size:17px;color:var(--orange);
+    font-variation-settings:"SOFT" 90,"WONK" 1}
+  .hero h1{
+    font-family:var(--serif);font-weight:400;
+    font-size:clamp(46px,8.2vw,104px);
+    line-height:1.02;letter-spacing:-.025em;
+    max-width:1080px;
+  }
+  .hero h1 em{
+    font-style:italic;font-weight:380;color:var(--wine);
+    font-variation-settings:"SOFT" 90,"WONK" 1;
+  }
+  .hero h1 .accent{color:var(--orange)}
+  .hero-under{
+    display:grid;grid-template-columns:1.2fr 1fr;gap:60px;align-items:end;
+    margin-top:clamp(40px,5vw,64px);
+  }
+  .hero-under .lede{font-size:18.5px;color:var(--ink-soft);max-width:560px}
+  .hero-under .lede b{color:var(--ink);font-weight:600}
+  .hero-actions{display:flex;align-items:center;gap:30px;flex-wrap:wrap;justify-content:flex-end}
+  .hero-rule{margin-top:clamp(48px,6vw,76px);border-top:1.5px solid var(--ink);
+    display:flex;justify-content:space-between;padding-top:18px;flex-wrap:wrap;gap:12px}
+  .hero-rule span{font-size:12.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft)}
+  .hero-rule span b{color:var(--wine);font-weight:600}
+
+  /* rotating stamp */
+  .stamp-wrap{position:absolute;right:clamp(20px,6vw,80px);top:clamp(16px,3vw,40px);
+    width:130px;height:130px;pointer-events:none}
+  .stamp{width:100%;height:100%;animation:spin 22s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .stamp text{font-family:var(--sans);font-size:8.4px;font-weight:600;letter-spacing:.32em;
+    text-transform:uppercase;fill:var(--wine)}
+  .stamp .core{font-family:var(--serif);font-style:italic;font-size:26px;fill:var(--orange);letter-spacing:0}
+
+  /* ================= MARQUEE ================= */
+  .marquee-band{border-top:1.5px solid var(--ink);border-bottom:1.5px solid var(--ink);
+    background:var(--sage);overflow:hidden;padding:20px 0}
+  .marquee{display:flex;gap:0;width:max-content;animation:mscroll 36s linear infinite}
+  .marquee span{
+    font-family:var(--serif);font-size:clamp(20px,2.4vw,28px);font-weight:420;
+    color:var(--ink);white-space:nowrap;padding-right:26px;
+  }
+  .marquee span i{font-style:italic;color:var(--wine);font-variation-settings:"SOFT" 80,"WONK" 1}
+  .marquee span::after{content:"✦";color:var(--orange);font-style:normal;margin-left:26px;font-size:.75em}
+  @keyframes mscroll{to{transform:translateX(-50%)}}
+
+  /* ================= PROBLEM (editorial numbered list) ================= */
+  .prob-list{border-top:1.5px solid var(--ink)}
+  .prob-row{
+    display:grid;grid-template-columns:90px 1fr 1.15fr;gap:32px;align-items:baseline;
+    padding:30px 8px;border-bottom:1px solid var(--line);
+    transition:all .35s;cursor:default;
+  }
+  .prob-row:hover{background:var(--paper-2);padding-left:22px}
+  .prob-row .num{font-family:var(--serif);font-style:italic;font-size:19px;color:var(--orange)}
+  .prob-row h3{font-family:var(--serif);font-weight:450;font-size:clamp(21px,2.6vw,28px);letter-spacing:-.01em}
+  .prob-row p{color:var(--ink-soft);font-size:15.5px}
+  .prob-row:hover h3{color:var(--wine)}
+  .punchline{
+    margin-top:clamp(44px,6vw,64px);text-align:center;
+    font-family:var(--serif);font-size:clamp(24px,3.4vw,38px);font-weight:420;line-height:1.25;
+  }
+  .punchline em{font-style:italic;color:var(--wine);font-variation-settings:"SOFT" 90,"WONK" 1}
+  .punchline .hl{position:relative;white-space:nowrap}
+  .punchline .hl svg{position:absolute;left:0;bottom:-10px;width:100%;height:14px;overflow:visible}
+  .punchline .hl path{stroke:var(--orange);stroke-width:2.6;fill:none;stroke-linecap:round}
+
+  /* ================= METHOD (giant editorial rows) ================= */
+  .method{background:var(--wine);color:#F6F2E9}
+  .method .eyebrow{color:rgba(246,242,233,.65)}
+  .method .eyebrow::after{background:rgba(246,242,233,.4)}
+  .method h2{color:#F6F2E9}
+  .method .sub{color:rgba(246,242,233,.72)}
+  .m-rows{margin-top:clamp(48px,6vw,72px);border-top:1px solid rgba(246,242,233,.25)}
+  .m-row{
+    display:grid;grid-template-columns:80px 1fr 1.1fr;gap:34px;align-items:center;
+    padding:clamp(26px,3.6vw,44px) 8px;border-bottom:1px solid rgba(246,242,233,.25);
+    transition:all .35s;
+  }
+  .m-row:hover{background:rgba(246,242,233,.05);padding-left:24px}
+  .m-row .step{font-family:var(--serif);font-style:italic;font-size:18px;color:#f4a26b}
+  .m-row .word{
+    font-family:var(--serif);font-weight:400;letter-spacing:-.02em;
+    font-size:clamp(40px,6.4vw,76px);line-height:1;
+  }
+  .m-row:hover .word{font-style:italic;color:#f4a26b;font-variation-settings:"SOFT" 90,"WONK" 1}
+  .m-row p{color:rgba(246,242,233,.75);font-size:16px;max-width:460px}
+
+  /* ================= PATHS ================= */
+  .path-board{border-top:1.5px solid var(--ink)}
+  .path-item{
+    display:grid;grid-template-columns:64px 1fr 1.3fr auto;gap:30px;align-items:center;
+    padding:32px 8px;border-bottom:1px solid var(--line);text-decoration:none;color:var(--ink);
+    transition:all .35s;
+  }
+  .path-item:hover{background:var(--sage);padding-left:22px}
+  .path-item .letter{
+    font-family:var(--serif);font-style:italic;font-size:clamp(30px,3.4vw,42px);
+    color:var(--orange);font-variation-settings:"SOFT" 90,"WONK" 1;line-height:1;
+  }
+  .path-item h3{font-family:var(--serif);font-weight:450;font-size:clamp(22px,2.8vw,30px);letter-spacing:-.01em}
+  .path-item .lvl{font-size:11.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-soft);margin-top:5px}
+  .path-item p{color:var(--ink-soft);font-size:15px}
+  .path-item .go{
+    width:52px;height:52px;border:1.5px solid var(--ink);border-radius:50%;
+    display:grid;place-items:center;font-size:19px;transition:all .35s;flex:none;
+  }
+  .path-item:hover .go{background:var(--wine);border-color:var(--wine);color:#F6F2E9;transform:rotate(-45deg)}
+  .path-item:hover h3{color:var(--wine)}
+
+  /* ================= PRICING ================= */
+  .pricing{background:var(--paper-2)}
+  .urge{
+    display:inline-block;margin-top:24px;
+    font-family:var(--serif);font-style:italic;font-size:18px;color:var(--orange);
+    border-bottom:1.5px solid var(--orange);padding-bottom:2px;
+  }
+  .price-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;
+    margin-top:clamp(48px,6vw,68px);align-items:stretch}
+  .pcard{
+    display:flex;flex-direction:column;padding:clamp(30px,3vw,42px) clamp(24px,2.6vw,36px);
+    border:1.5px solid var(--ink);border-radius:26px;background:var(--paper);
+    transition:all .4s cubic-bezier(.2,.65,.3,1);position:relative;
+  }
+  .pcard:hover{transform:translateY(-8px);box-shadow:0 24px 50px -22px rgba(33,29,25,.35)}
+  .pcard.hero-plan{
+    background:var(--wine);color:#F6F2E9;border-color:var(--wine);
+    box-shadow:0 30px 60px -24px rgba(92,0,54,.5);
+  }
+  .pcard.hero-plan:hover{box-shadow:0 38px 70px -22px rgba(92,0,54,.6)}
+  .pcard .badge{
+    position:absolute;top:-16px;left:50%;transform:translateX(-50%);white-space:nowrap;
+    background:var(--orange);color:#fff;font-family:var(--serif);font-style:italic;
+    font-size:15px;padding:7px 22px;border-radius:100px;
+    box-shadow:0 8px 20px -8px rgba(240,84,0,.6);
+  }
+  .pcard .for{font-size:11.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-soft)}
+  .pcard.hero-plan .for{color:rgba(246,242,233,.65)}
+  .pcard h3{font-family:var(--serif);font-weight:450;font-size:30px;margin:10px 0 22px;letter-spacing:-.01em}
+  .pcard .prices{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+  .pcard .now{font-family:var(--serif);font-size:clamp(40px,4vw,52px);font-weight:420;letter-spacing:-.02em}
+  .pcard.hero-plan .now{color:#F8C09A}
+  .pcard .was{color:var(--ink-soft);text-decoration:line-through;font-size:17px}
+  .pcard.hero-plan .was{color:rgba(246,242,233,.55)}
+  .pcard .save{font-family:var(--serif);font-style:italic;font-size:15px;color:var(--orange)}
+  .pcard.hero-plan .save{color:#F8C09A}
+  .pcard .meta{font-size:13.5px;color:var(--ink-soft);margin-top:6px}
+  .pcard.hero-plan .meta{color:rgba(246,242,233,.7)}
+  .pcard .meta b{font-weight:600;color:inherit}
+  .pcard ul{list-style:none;margin:28px 0 32px;flex:1;display:flex;flex-direction:column}
+  .pcard li{
+    display:flex;gap:12px;align-items:flex-start;font-size:15px;color:var(--ink-soft);
+    padding:11px 0;border-bottom:1px solid var(--line);
+  }
+  .pcard li:last-child{border-bottom:none}
+  .pcard.hero-plan li{color:rgba(246,242,233,.85);border-color:rgba(246,242,233,.2)}
+  .pcard li b{color:var(--ink);font-weight:600}
+  .pcard.hero-plan li b{color:#fff}
+  .pcard li::before{content:"✦";color:var(--orange);font-size:12px;margin-top:4px;flex:none}
+  .pcard.hero-plan li::before{color:#F8C09A}
+  .pcard .btn{justify-content:center;width:100%}
+  .pcard.hero-plan .btn{background:#F6F2E9;color:#211D19;border-color:#F6F2E9}
+  .pcard.hero-plan .btn:hover{background:var(--orange);border-color:var(--orange);color:#fff}
+  .pay-strip{
+    margin-top:clamp(36px,4vw,52px);display:flex;justify-content:center;gap:14px 38px;flex-wrap:wrap;
+    font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);
+  }
+  .pay-strip span::before{content:"—";color:var(--orange);margin-right:10px}
+  .fine{text-align:center;font-family:var(--serif);font-style:italic;font-size:15.5px;
+    color:var(--ink-soft);margin-top:22px}
+
+  /* ================= PSYCHOLOGY (pull quote) ================= */
+  .psy .quote{
+    font-family:var(--serif);font-weight:400;letter-spacing:-.02em;
+    font-size:clamp(38px,6vw,74px);line-height:1.08;max-width:980px;
+  }
+  .psy .quote em{font-style:italic;color:var(--wine);font-variation-settings:"SOFT" 90,"WONK" 1}
+  .psy .quote .mark{color:var(--orange)}
+  .psy-tags{display:flex;flex-wrap:wrap;gap:12px;margin-top:clamp(36px,5vw,52px)}
+  .psy-tag{
+    font-family:var(--serif);font-size:17px;padding:12px 26px;
+    border:1.5px solid var(--ink);border-radius:100px;transition:all .3s;cursor:default;
+  }
+  .psy-tag:hover{background:var(--wine);border-color:var(--wine);color:#F6F2E9;
+    font-style:italic;transform:translateY(-3px)}
+
+  /* ================= INDICATORS ================= */
+  .ind-band{border-top:1.5px solid var(--ink);border-bottom:1.5px solid var(--ink);padding:clamp(48px,6vw,72px) 0}
+  .ind-head{display:flex;justify-content:space-between;align-items:baseline;gap:24px;flex-wrap:wrap;margin-bottom:36px}
+  .ind-head h2{font-size:clamp(26px,3.4vw,40px)}
+  .ind-head .note{font-family:var(--serif);font-style:italic;font-size:17px;color:var(--ink-soft)}
+  .ind-flow{display:flex;flex-wrap:wrap;gap:0;font-family:var(--serif);
+    font-size:clamp(22px,3vw,34px);font-weight:420;line-height:1.7}
+  .ind-flow span{transition:all .3s;cursor:default;padding:0 4px}
+  .ind-flow span:hover{color:var(--orange);font-style:italic}
+  .ind-flow i{font-style:normal;color:var(--orange);padding:0 14px;font-size:.65em;vertical-align:middle}
+
+  /* ================= FAQ ================= */
+  .faq-grid{display:grid;grid-template-columns:.85fr 1.4fr;gap:70px;align-items:start}
+  .faq-side h2{font-size:clamp(32px,4vw,50px)}
+  .faq-side .sub{margin-top:18px}
+  details{border-bottom:1px solid var(--line)}
+  details:first-of-type{border-top:1.5px solid var(--ink)}
+  summary{
+    list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:20px;
+    padding:24px 4px;font-family:var(--serif);font-weight:450;font-size:20px;letter-spacing:-.01em;
+    transition:color .25s;
+  }
+  summary:hover{color:var(--wine)}
+  summary::-webkit-details-marker{display:none}
+  summary .ic{
+    flex:none;width:34px;height:34px;border:1.5px solid var(--ink);border-radius:50%;
+    display:grid;place-items:center;font-size:17px;font-family:var(--sans);transition:all .35s;
+  }
+  details[open] summary{color:var(--wine)}
+  details[open] .ic{background:var(--wine);border-color:var(--wine);color:#F6F2E9;transform:rotate(45deg)}
+  details p{padding:0 44px 24px 4px;color:var(--ink-soft);font-size:15.5px}
+
+  /* ================= FINAL CTA ================= */
+  .finale{background:#1B1712;color:#F6F2E9;text-align:center;overflow:hidden}
+  .finale .big{
+    font-family:var(--serif);font-weight:400;letter-spacing:-.025em;
+    font-size:clamp(48px,8.5vw,110px);line-height:1.02;
+  }
+  .finale .big em{font-style:italic;color:#F8C09A;font-variation-settings:"SOFT" 90,"WONK" 1}
+  .finale .sub{color:rgba(246,242,233,.65);margin:26px auto 40px;max-width:520px}
+  .finale .btn{border-color:#F6F2E9;background:#F6F2E9;color:#1B1712;font-size:16px;padding:19px 42px}
+  .finale .btn:hover{background:var(--orange);border-color:var(--orange);color:#fff}
+  .finale .whisper{margin-top:26px;font-family:var(--serif);font-style:italic;
+    font-size:15px;color:rgba(246,242,233,.5)}
+
+  /* ================= TRADE SIMULATOR ================= */
+  .sim-grid{display:grid;grid-template-columns:.85fr 1.25fr;gap:clamp(36px,5vw,64px);
+    align-items:center;margin-top:clamp(40px,5vw,56px)}
+  .sim-copy p{color:var(--ink-soft);font-size:16.5px;max-width:440px}
+  .sim-copy p b{color:var(--ink);font-weight:600}
+  .sim-btns{display:flex;flex-direction:column;gap:12px;margin-top:30px;align-items:flex-start}
+  .sim-btn{
+    display:inline-flex;align-items:center;gap:12px;cursor:pointer;
+    font-family:var(--serif);font-size:17px;padding:14px 28px;border-radius:100px;
+    border:1.5px solid var(--ink);background:transparent;color:var(--ink);
+    transition:all .3s;text-align:left;
+  }
+  .sim-btn:hover{transform:translateX(6px)}
+  .sim-btn .sig{font-family:var(--sans);font-size:13px;font-weight:700}
+  .sim-btn.tip .sig{color:#C23B3B}
+  .sim-btn.plan .sig{color:#1E8E5E}
+  .sim-btn.on.tip{background:#C23B3B;border-color:#C23B3B;color:#fff}
+  .sim-btn.on.tip .sig{color:#fff}
+  .sim-btn.on.plan{background:#1E8E5E;border-color:#1E8E5E;color:#fff}
+  .sim-btn.on.plan .sig{color:#fff}
+  .sim-whisper{margin-top:24px;font-family:var(--serif);font-style:italic;
+    font-size:14.5px;color:var(--ink-soft)}
+  .sim-panel{
+    border:1.5px solid var(--ink);border-radius:26px;background:var(--paper-2);
+    padding:clamp(14px,2vw,24px);position:relative;
+  }
+  .sim-panel-head{display:flex;justify-content:space-between;align-items:center;
+    padding:4px 10px 14px;border-bottom:1px solid var(--line);margin-bottom:8px}
+  .sim-panel-head .t{font-family:var(--serif);font-style:italic;font-size:16px;color:var(--ink-soft)}
+  .sim-panel-head .live{font-size:10.5px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;
+    color:var(--orange);display:flex;align-items:center;gap:7px}
+  .sim-panel-head .live i{width:7px;height:7px;border-radius:50%;background:var(--orange);
+    animation:blink 1.5s infinite}
+  @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+  .sim-panel svg{display:block;width:100%;height:auto}
+  .sim-panel svg .gridln{stroke:var(--line);stroke-width:1}
+  .sim-panel svg .lvl-label{font-family:var(--sans);font-size:11px;font-weight:600;letter-spacing:.08em}
+  .sim-panel svg .pnl{font-family:var(--serif);font-weight:600;font-size:34px;letter-spacing:-.02em}
+  .sim-result{
+    min-height:30px;margin-top:14px;padding:0 10px 6px;
+    font-family:var(--serif);font-size:16.5px;font-style:italic;
+  }
+  .sim-result.win{color:#1E8E5E}
+  .sim-result.lose{color:#C23B3B}
+  @media(max-width:1000px){
+    .sim-grid{grid-template-columns:1fr}
+  }
+
+  /* ================= FOOTER ================= */
+  footer{padding:clamp(48px,6vw,72px) 0 40px;border-top:1.5px solid var(--ink)}
+  .foot-top{display:flex;justify-content:space-between;gap:40px;flex-wrap:wrap;margin-bottom:48px}
+  .foot-brand{max-width:360px}
+  .foot-brand .logo{font-size:28px}
+  .foot-brand p{color:var(--ink-soft);font-size:15px;margin-top:14px}
+  .foot-cols{display:flex;gap:70px;flex-wrap:wrap}
+  .fcol h4{font-size:11.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:16px;font-weight:600}
+  .fcol a{display:block;color:var(--ink);text-decoration:none;font-size:15px;padding:5px 0;
+    font-family:var(--serif);transition:all .25s}
+  .fcol a:hover{color:var(--wine);font-style:italic;padding-left:6px}
+  .legal{border-top:1px solid var(--line);padding-top:28px;color:var(--ink-soft);font-size:12.5px;line-height:1.75}
+  .legal b{color:var(--ink)}
+  .legal .sig{margin-top:18px;font-family:var(--serif);font-style:italic;font-size:14px;color:var(--wine)}
+
+  /* ================= RESPONSIVE ================= */
+  @media(max-width:1000px){
+    .hero-under{grid-template-columns:1fr;gap:34px}
+    .hero-actions{justify-content:flex-start}
+    .prob-row{grid-template-columns:56px 1fr}
+    .prob-row p{grid-column:2}
+    .m-row{grid-template-columns:56px 1fr}
+    .m-row p{grid-column:2;max-width:100%}
+    .path-item{grid-template-columns:48px 1fr auto}
+    .path-item p{grid-column:2/4}
+    .price-grid{grid-template-columns:1fr;max-width:480px;margin-left:auto;margin-right:auto}
+    .pcard.hero-plan{order:-1}
+    .faq-grid{grid-template-columns:1fr;gap:44px}
+    .stamp-wrap{display:none}
+  }
+  @media(max-width:720px){
+    .nav-links{display:none}
+    .nav .btn-ink{display:none}
+    .burger{display:block}
+    .hero h1{font-size:clamp(42px,11.5vw,64px)}
+    .path-item .go{display:none}
+    .prob-row{padding:24px 4px}
+    .hero-actions .btn{width:100%;justify-content:center}
+  }
+</style>
+</head>
+<body>
+
+<div class="topline">Launch access open · Save up to 50% · <em>Education only, no tips, no advisory</em></div>
+
+<header>
+  <div class="wrap nav">
+    <a href="#" class="logo">Double <em>Hedged</em></a>
+    <nav class="nav-links">
+      <a href="#problem">The Problem</a>
+      <a href="#method">Method</a>
+      <a href="#paths">Learning Paths</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <div style="display:flex;align-items:center;gap:14px">
+      <div class="theme-dots" title="Change the mood">
+        <button id="thSun" class="active" aria-label="Light theme">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.4"/><path d="M12 2.5v2.4M12 19.1v2.4M2.5 12h2.4M19.1 12h2.4M4.9 4.9l1.7 1.7M17.4 17.4l1.7 1.7M19.1 4.9l-1.7 1.7M6.6 17.4l-1.7 1.7"/></svg>
+        </button>
+        <button id="thMoon" aria-label="Dark theme">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.5 14.5A8.5 8.5 0 019.5 3.5a8.5 8.5 0 1011 11z"/></svg>
+        </button>
+        <button id="thRandom" aria-label="Random palette">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 3h5v5M4 20L21 3M21 16v5h-5M15 15l6 6M4 4l5 5"/></svg>
+        </button>
+      </div>
+      <a href="#pricing" class="btn btn-ink">Start Learning</a>
+      <button class="burger" id="burger" aria-label="Menu">☰</button>
+    </div>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#problem">The Problem</a>
+    <a href="#method">Method</a>
+    <a href="#paths">Learning Paths</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#faq">FAQ</a>
+  </div>
+</header>
+
+<!-- ================= HERO ================= -->
+<section class="hero">
+  <div class="stamp-wrap">
+    <svg class="stamp" viewBox="0 0 130 130">
+      <defs><path id="circ" d="M65,65 m-48,0 a48,48 0 1,1 96,0 a48,48 0 1,1 -96,0"/></defs>
+      <text><textPath href="#circ">PROTECTION BEFORE PREDICTION · INDIAN MARKETS · </textPath></text>
+      <text class="core" x="65" y="74" text-anchor="middle">DH</text>
+    </svg>
+  </div>
+  <div class="wrap">
+    <div class="hero-kicker reveal">
+      <span class="tag">Indian Stock Market Education</span>
+      <span class="dotline"></span>
+      <span class="script">est. protection before prediction</span>
+    </div>
+    <h1 class="reveal d1">Master the market,<br><em>before it tests</em> <span class="accent">you.</span></h1>
+    <div class="hero-under">
+      <p class="lede reveal d2">Double Hedged teaches Indian traders to read <b>charts, risk, options, futures and psychology</b> — so every decision comes from process, not tips.</p>
+      <div class="hero-actions reveal d3">
+        <a href="#paths" class="link-cal">see the learning path</a>
+        <a href="#pricing" class="btn btn-ink">Start Learning <span class="o">→</span></a>
+      </div>
+    </div>
+    <div class="hero-rule reveal d3">
+      <span><b>05</b> — Learning paths</span>
+      <span><b>10+</b> — Indicators in context</span>
+      <span><b>1 : 2</b> — Risk-reward discipline</span>
+      <span><b>₹0</b> — Tips sold, ever</span>
+    </div>
+  </div>
+</section>
+
+<!-- ================= MARQUEE ================= -->
+<div class="marquee-band" aria-hidden="true">
+  <div class="marquee" id="marquee">
+    <span>NIFTY</span><span><i>Banknifty</i></span><span>FINNIFTY</span><span><i>MCX Gold</i></span>
+    <span>MCX CRUDE</span><span><i>Options</i></span><span>FUTURES</span><span><i>Intraday</i></span>
+    <span>SWING</span><span><i>Risk Control</i></span><span>PSYCHOLOGY</span>
+  </div>
+</div>
+
+<!-- ================= PROBLEM ================= -->
+<section id="problem">
+  <div class="wrap">
+    <div class="eyebrow reveal"><span>The Problem</span><span class="no">n°01</span></div>
+    <h2 class="reveal">Indian retail traders don't need more noise. They need a process that <em class="cal">protects capital.</em></h2>
+    <p class="sub reveal d1">Most damage happens before a trader understands why the trade was taken, how much was at risk, or where the idea becomes invalid.</p>
+
+    <div class="prob-list reveal d2" style="margin-top:56px">
+      <div class="prob-row"><span class="num">i.</span><h3>Entering without a plan</h3><p>No entry logic, no invalidation, no exit — just impulse.</p></div>
+      <div class="prob-row"><span class="num">ii.</span><h3>Averaging losses</h3><p>Adding to losers, turning a small mistake into a big one.</p></div>
+      <div class="prob-row"><span class="num">iii.</span><h3>Buying options blindly</h3><p>Ignoring theta decay, IV and Greeks until the premium melts.</p></div>
+      <div class="prob-row"><span class="num">iv.</span><h3>Following Telegram tips</h3><p>Outsourcing decisions to strangers with screenshots.</p></div>
+      <div class="prob-row"><span class="num">v.</span><h3>Ignoring stop-loss</h3><p>Hoping instead of exiting when the idea is proven wrong.</p></div>
+      <div class="prob-row"><span class="num">vi.</span><h3>Revenge trading</h3><p>One bad trade triggers five worse ones.</p></div>
+    </div>
+
+    <div class="punchline reveal">Before you learn how to enter,<br><em>learn how not to</em> <span class="hl">destroy your capital.<svg viewBox="0 0 300 14" preserveAspectRatio="none"><path d="M4 9 Q 75 3, 150 8 T 296 7"/></svg></span></div>
+  </div>
+</section>
+
+<!-- ================= METHOD ================= -->
+<section id="method" class="method">
+  <div class="wrap">
+    <div class="eyebrow reveal"><span>The Double Hedged Method</span><span class="no" style="color:#F8C09A">n°02</span></div>
+    <h2 class="reveal">Three words. <em class="cal" style="color:#F8C09A">One discipline.</em></h2>
+    <p class="sub reveal d1">The framework keeps prediction in its place — understand conditions first, protect capital second, execute only when the rules align.</p>
+
+    <div class="m-rows reveal d2">
+      <div class="m-row">
+        <span class="step">01.</span>
+        <div class="word">Plan</div>
+        <p>Read market structure, trend, levels, timeframe and news risk — before even thinking about an entry.</p>
+      </div>
+      <div class="m-row">
+        <span class="step">02.</span>
+        <div class="word">Protect</div>
+        <p>Define stop-loss, position size, capital risk and invalidation level before the trade begins.</p>
+      </div>
+      <div class="m-row">
+        <span class="step">03.</span>
+        <div class="word">Perform</div>
+        <p>Execute only when the checklist matches. Exit without emotion when the trade is wrong.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= TRADE SIMULATOR ================= -->
+<section id="practice">
+  <div class="wrap">
+    <div class="eyebrow reveal"><span>See the Difference</span><span class="no">n°03</span></div>
+    <h2 class="reveal">Same market. Same move. <em class="cal">One difference.</em></h2>
+    <div class="sim-grid">
+      <div class="sim-copy reveal d1">
+        <p>Two traders see the <b>same NIFTY setup</b>. One chases a Telegram tip. The other has been through Double Hedged — planned entry, protected stop, patient exit.</p>
+        <p style="margin-top:14px">Press each button. <b>Watch the same market treat them differently.</b></p>
+        <div class="sim-btns">
+          <button class="sim-btn tip" data-sim="tip"><span class="sig">✕</span> Trade on a tip — no plan, no stop</button>
+          <button class="sim-btn plan on" data-sim="plan"><span class="sig">✦</span> Trade after Double Hedged — plan · protect · perform</button>
+        </div>
+        <div class="sim-whisper">a simulation of process, not a promise of profit.</div>
+      </div>
+      <div class="reveal d2">
+        <div class="sim-panel">
+          <div class="sim-panel-head">
+            <span class="t">nifty · the same session, twice</span>
+            <span class="live"><i></i>Simulation</span>
+          </div>
+          <svg id="simSvg" viewBox="0 0 700 340" xmlns="http://www.w3.org/2000/svg">
+            <line class="gridln" x1="40" y1="60"  x2="680" y2="60"/>
+            <line class="gridln" x1="40" y1="130" x2="680" y2="130"/>
+            <line class="gridln" x1="40" y1="200" x2="680" y2="200"/>
+            <line class="gridln" x1="40" y1="270" x2="680" y2="270"/>
+            <!-- target -->
+            <line x1="40" y1="81" x2="680" y2="81" stroke="#1E8E5E" stroke-width="1.6" stroke-dasharray="7 6" opacity=".8"/>
+            <text class="lvl-label" x="44" y="74" fill="#1E8E5E">TARGET · +2R</text>
+            <!-- entry -->
+            <line x1="40" y1="205" x2="680" y2="205" stroke="currentColor" stroke-width="1.3" stroke-dasharray="3 5" opacity=".55"/>
+            <text class="lvl-label" x="44" y="198" fill="currentColor" opacity=".6">ENTRY</text>
+            <!-- stop -->
+            <line x1="40" y1="267" x2="680" y2="267" stroke="#C23B3B" stroke-width="1.6" stroke-dasharray="7 6" opacity=".8"/>
+            <text class="lvl-label" x="44" y="284" fill="#C23B3B">STOP · −1R</text>
+            <!-- animated price -->
+            <polyline id="simPath" points="" fill="none" stroke="#1E8E5E" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+            <circle id="simDot" cx="50" cy="205" r="6" fill="#1E8E5E"/>
+            <text id="simPnl" class="pnl" x="668" y="52" text-anchor="end" fill="#1E8E5E">0.0R</text>
+          </svg>
+          <div class="sim-result win" id="simResult"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= LEARNING PATHS ================= -->
+<section id="paths">
+  <div class="wrap">
+    <div class="eyebrow reveal"><span>Learning Paths</span><span class="no">n°04</span></div>
+    <h2 class="reveal">Five routes from market basics to <em class="cal">disciplined execution.</em></h2>
+    <p class="sub reveal d1">Serious training modules — not promises of income. You learn the chart, the instrument, the risk, and your own decision habits.</p>
+
+    <div class="path-board reveal d2" style="margin-top:56px">
+      <a href="#pricing" class="path-item">
+        <span class="letter">a.</span>
+        <div><h3>Beginner Trader</h3><div class="lvl">Foundation</div></div>
+        <p>Market basics, candlesticks, support &amp; resistance, trendlines, volume, order types.</p>
+        <span class="go">→</span>
+      </a>
+      <a href="#pricing" class="path-item">
+        <span class="letter">b.</span>
+        <div><h3>Chart Reader</h3><div class="lvl">Intermediate</div></div>
+        <p>Price action, multi-timeframe analysis, breakout vs fakeout, trend strength, liquidity zones.</p>
+        <span class="go">→</span>
+      </a>
+      <a href="#pricing" class="path-item">
+        <span class="letter">c.</span>
+        <div><h3>Options Learner</h3><div class="lvl">Intermediate</div></div>
+        <p>Calls, puts, Greeks, theta decay, IV, option chain, spreads, hedging logic.</p>
+        <span class="go">→</span>
+      </a>
+      <a href="#pricing" class="path-item">
+        <span class="letter">d.</span>
+        <div><h3>Risk-First Trader</h3><div class="lvl">Core discipline</div></div>
+        <p>Position sizing, stop-loss discipline, 1:2 risk-reward, max daily loss, trade journaling.</p>
+        <span class="go">→</span>
+      </a>
+      <a href="#pricing" class="path-item">
+        <span class="letter">e.</span>
+        <div><h3>Advanced Execution</h3><div class="lvl">Advanced</div></div>
+        <p>15-min and 75-min planning, confirmation logic, entry checklists, exit rules, no-overtrading systems.</p>
+        <span class="go">→</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PRICING ================= -->
+<section id="pricing" class="pricing">
+  <div class="wrap">
+    <div class="eyebrow reveal"><span>Pricing</span><span class="no">n°05</span></div>
+    <h2 class="reveal">Choose the level that matches your <em class="cal">trading maturity.</em></h2>
+    <span class="urge reveal d1">launch pricing — save up to 50% on first enrollment</span>
+
+    <div class="price-grid">
+      <div class="pcard reveal">
+        <span class="for">For new traders</span>
+        <h3>Starter</h3>
+        <div class="prices"><span class="now">₹999</span><span class="was">₹1,999</span><span class="save">save 50%</span></div>
+        <div class="meta">One-time launch access</div>
+        <ul>
+          <li><span><b>Beginner Trader path</b> — full foundation module</span></li>
+          <li><span>Candlestick &amp; level basics</span></li>
+          <li><span>Risk-first checklist</span></li>
+          <li><span>Community learning room</span></li>
+        </ul>
+        <a href="#checkout" class="btn btn-line">Start with Basics</a>
+      </div>
+
+      <div class="pcard hero-plan reveal d1">
+        <span class="badge">most popular · best value</span>
+        <span class="for">For committed learners</span>
+        <h3>Pro Trader</h3>
+        <div class="prices"><span class="now">₹2,999</span><span class="was">₹4,999</span><span class="save">save 40%</span></div>
+        <div class="meta">Under <b>₹9 a day</b> for a full year of structure</div>
+        <ul>
+          <li><span><b>All 5 learning paths</b> — beginner to advanced</span></li>
+          <li><span><b>Options Learner modules</b> — Greeks, theta, IV, spreads</span></li>
+          <li><span>Simulator practice workflow</span></li>
+          <li><span><b>Weekly live chart review sessions</b></span></li>
+          <li><span>Lifetime lesson access + certificate</span></li>
+        </ul>
+        <a href="#checkout" class="btn">Choose Pro Trader <span class="o">→</span></a>
+      </div>
+
+      <div class="pcard reveal d2">
+        <span class="for">For serious practice</span>
+        <h3>Execution Lab</h3>
+        <div class="prices"><span class="now">₹7,999</span><span class="was">₹11,999</span><span class="save">save 33%</span></div>
+        <div class="meta">Advanced cohort access</div>
+        <ul>
+          <li><span><b>Everything in Pro Trader</b></span></li>
+          <li><span><b>Personal trade journal review</b></span></li>
+          <li><span>15-min &amp; 75-min planning frameworks</span></li>
+          <li><span>Mistake correction frameworks</span></li>
+        </ul>
+        <a href="#checkout" class="btn btn-line">Join the Lab</a>
+      </div>
+    </div>
+
+    <div class="pay-strip reveal">
+      <span>Secure checkout</span>
+      <span>Instant dashboard access</span>
+      <span>UPI · Cards · Net banking · Wallets</span>
+    </div>
+    <p class="fine">education only — no tips, no guaranteed returns, no advisory.</p>
+  </div>
+</section>
+
+<!-- ================= PSYCHOLOGY ================= -->
+<section id="psychology" class="psy">
+  <div class="wrap">
+    <div class="eyebrow reveal"><span>Psychology</span><span class="no">n°06</span></div>
+    <div class="quote reveal"><span class="mark">“</span>The real chart is <em>inside your head.</em><span class="mark">”</span></div>
+    <p class="sub reveal d1">A trader can know every pattern and still lose control when fear, hope, ego or urgency takes over. Double Hedged treats psychology as a core module — not a bonus lesson.</p>
+    <div class="psy-tags reveal d2">
+      <span class="psy-tag">Fear of missing out</span>
+      <span class="psy-tag">Revenge trading</span>
+      <span class="psy-tag">Overconfidence</span>
+      <span class="psy-tag">Hope-based holding</span>
+      <span class="psy-tag">Loss recovery trap</span>
+      <span class="psy-tag">Moving the stop-loss</span>
+      <span class="psy-tag">Booking profits too early</span>
+    </div>
+  </div>
+</section>
+
+<!-- ================= INDICATOR LAB ================= -->
+<div class="ind-band">
+  <div class="wrap">
+    <div class="ind-head reveal">
+      <h2>The Indicator Lab</h2>
+      <span class="note">indicators don't predict — they help you read behavior.</span>
+    </div>
+    <div class="ind-flow reveal d1">
+      <span>EMA</span><i>✦</i><span>VWAP</span><i>✦</i><span>RSI</span><i>✦</i><span>MACD</span><i>✦</i>
+      <span>Supertrend</span><i>✦</i><span>Volume</span><i>✦</i><span>Open Interest</span><i>✦</i>
+      <span>CPR</span><i>✦</i><span>Bollinger Bands</span><i>✦</i><span>Market Profile</span>
+    </div>
+  </div>
+</div>
+
+<!-- ================= FAQ ================= -->
+<section id="faq">
+  <div class="wrap faq-grid">
+    <div class="faq-side reveal">
+      <div class="eyebrow"><span>FAQ</span><span class="no">n°07</span></div>
+      <h2>Clear answers, <em class="cal">before you start.</em></h2>
+      <p class="sub">Everything a careful buyer should know — asked and answered plainly.</p>
+    </div>
+    <div class="reveal d1">
+      <details open>
+        <summary>Is Double Hedged a tips platform? <span class="ic">+</span></summary>
+        <p>No. Double Hedged is an education platform built around structure, risk, practice, and chart-based learning. We do not provide trading calls, buy/sell recommendations, or advisory messages.</p>
+      </details>
+      <details>
+        <summary>Is this for beginners? <span class="ic">+</span></summary>
+        <p>Yes. The learning path starts with market basics and gradually moves into chart reading, options logic, risk, and execution.</p>
+      </details>
+      <details>
+        <summary>Do you teach options trading? <span class="ic">+</span></summary>
+        <p>Yes. Options are taught through logic — Greeks, theta decay, IV, option chain reading, spreads, and hedging concepts.</p>
+      </details>
+      <details>
+        <summary>Is this specific to Indian markets? <span class="ic">+</span></summary>
+        <p>Yes. Examples and modules focus on Indian traders, Indian timings, and instruments like NIFTY, BANKNIFTY, FINNIFTY, stocks, MCX Gold and MCX Crude.</p>
+      </details>
+      <details>
+        <summary>Do you guarantee profits? <span class="ic">+</span></summary>
+        <p>No. Trading involves market risk. Education can improve process and understanding, but it cannot guarantee returns.</p>
+      </details>
+      <details>
+        <summary>Can I learn with small capital? <span class="ic">+</span></summary>
+        <p>Yes — and the emphasis is on learning, simulation, journaling and risk control before increasing exposure.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FINAL CTA ================= -->
+<section class="finale">
+  <div class="wrap">
+    <div class="big reveal">Stop paying tuition<br>to the market. <em>Start learning.</em></div>
+    <p class="sub reveal d1">Pick a path, pay securely by UPI or card, and get instant access to your learning dashboard.</p>
+    <a href="#pricing" class="btn reveal d2">Start Learning Today <span class="o">→</span></a>
+    <div class="whisper reveal d2">every disciplined trader began as a beginner who chose process over luck.</div>
+  </div>
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer>
+  <div class="wrap">
+    <div class="foot-top">
+      <div class="foot-brand">
+        <a href="#" class="logo">Double <em>Hedged</em></a>
+        <p>Premium Indian stock market education for traders who want protection before prediction.</p>
+      </div>
+      <div class="foot-cols">
+        <div class="fcol">
+          <h4>Learn</h4>
+          <a href="#paths">Learning Paths</a>
+          <a href="#method">The Method</a>
+          <a href="#psychology">Psychology</a>
+        </div>
+        <div class="fcol">
+          <h4>Platform</h4>
+          <a href="#pricing">Pricing</a>
+          <a href="#faq">FAQ</a>
+          <a href="mailto:support@doublehedged.com">Support</a>
+        </div>
+        <div class="fcol">
+          <h4>Social</h4>
+          <a href="https://www.youtube.com/" target="_blank" rel="noopener">YouTube</a>
+          <a href="https://x.com/" target="_blank" rel="noopener">X</a>
+          <a href="https://www.instagram.com/" target="_blank" rel="noopener">Instagram</a>
+        </div>
+      </div>
+    </div>
+    <div class="legal">
+      <b>Compliance disclaimer:</b> Double Hedged is an educational platform. We do not provide investment advice, trading calls, buy/sell recommendations, portfolio management, or guaranteed returns. Trading and investing involve market risk. Please consult a SEBI-registered advisor before making financial decisions.
+      <div class="sig">© 2026 Double Hedged — protection before prediction.</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* scroll reveal */
+(function(){
+  const io = new IntersectionObserver(es=>{
+    es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  },{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+})();
+
+/* marquee seamless loop */
+(function(){
+  const m = document.getElementById('marquee');
+  if(m) m.innerHTML += m.innerHTML;
+})();
+
+/* mobile menu */
+(function(){
+  const b = document.getElementById('burger'), m = document.getElementById('mobileMenu');
+  if(!b) return;
+  b.addEventListener('click', ()=>m.classList.toggle('open'));
+  m.querySelectorAll('a').forEach(a=>a.addEventListener('click', ()=>m.classList.remove('open')));
+})();
+
+/* FAQ: one open at a time */
+(function(){
+  const all = document.querySelectorAll('#faq details');
+  all.forEach(d=>d.addEventListener('toggle', ()=>{
+    if(d.open) all.forEach(o=>{ if(o!==d) o.open=false; });
+  }));
+})();
+
+/* ===== THEME SWITCHER: sun / moon / random ===== */
+(function(){
+  const KEYS = ['paper','paper-2','sage','ink','ink-soft','wine','orange','peach'];
+  const PALETTES = [
+    /* pale sage · wine · orange (michele) */
+    {'paper':'#EAF2E7','paper-2':'#DEE9DA','sage':'#F6F2E9','ink':'#1E2420','ink-soft':'#5B6459','wine':'#5C0036','orange':'#F05400','peach':'#F8C09A'},
+    /* parchment · forest · amber */
+    {'paper':'#F2EBDD','paper-2':'#E9DFC9','sage':'#E3EBDF','ink':'#22201A','ink-soft':'#6B6455','wine':'#0F4C3A','orange':'#D97A1F','peach':'#F2C879'},
+    /* fog · indigo · vermilion */
+    {'paper':'#ECEEF6','paper-2':'#DFE3F0','sage':'#E7ECE4','ink':'#161B2C','ink-soft':'#5A6072','wine':'#26306B','orange':'#E84B31','peach':'#F4B9A0'},
+    /* blush · raspberry · rust */
+    {'paper':'#F7ECEC','paper-2':'#EFDDDD','sage':'#F1E7DA','ink':'#2A1518','ink-soft':'#75585C','wine':'#8C1D3F','orange':'#D45A13','peach':'#F6C39B'},
+    /* butter · cobalt · tomato */
+    {'paper':'#F6EFD9','paper-2':'#EEE3C2','sage':'#E9EFE0','ink':'#20222B','ink-soft':'#666A54','wine':'#274690','orange':'#E2542A','peach':'#F3BE8B'},
+    /* espresso dark · rose · tangerine */
+    {'paper':'#181310','paper-2':'#221B15','sage':'#1C241E','ink':'#F0E8D8','ink-soft':'#A79D8B','wine':'#C2497F','orange':'#FF7A33','peach':'#F8C09A'},
+    /* midnight teal dark · jade · saffron */
+    {'paper':'#101718','paper-2':'#16211F','sage':'#1A2422','ink':'#E6F0EA','ink-soft':'#8FA39B','wine':'#2E7D64','orange':'#F2A93B','peach':'#F6D48F'}
+  ];
+  const root = document.documentElement;
+  const sun = document.getElementById('thSun'),
+        moon = document.getElementById('thMoon'),
+        rnd = document.getElementById('thRandom');
+  let lastIdx = -1;
+  function clearVars(){ KEYS.forEach(k=>root.style.removeProperty('--'+k)); }
+  function mark(btn){ [sun,moon,rnd].forEach(b=>b.classList.toggle('active', b===btn)); }
+  function setLight(save){ clearVars(); document.body.classList.remove('dark'); mark(sun); if(save) store('light'); }
+  function setDark(save){ clearVars(); document.body.classList.add('dark'); mark(moon); if(save) store('dark'); }
+  function setPalette(i, save){
+    document.body.classList.remove('dark');
+    const p = PALETTES[i];
+    KEYS.forEach(k=>root.style.setProperty('--'+k, p[k]));
+    lastIdx = i; mark(rnd); if(save) store('p'+i);
+  }
+  function store(v){ try{ localStorage.setItem('dh-theme', v); }catch(e){} }
+  sun.addEventListener('click', ()=>setLight(true));
+  moon.addEventListener('click', ()=>setDark(true));
+  rnd.addEventListener('click', ()=>{
+    let i; do { i = Math.floor(Math.random()*PALETTES.length); } while(i===lastIdx && PALETTES.length>1);
+    setPalette(i, true);
+  });
+  /* restore */
+  try{
+    const v = localStorage.getItem('dh-theme');
+    if(v==='dark') setDark(false);
+    else if(v && v[0]==='p') setPalette(Math.min(+v.slice(1)||0, PALETTES.length-1), false);
+  }catch(e){}
+})();
+
+/* ===== TRADE SIMULATOR: tip vs plan ===== */
+(function(){
+  const svg = document.getElementById('simSvg');
+  if(!svg) return;
+  const pl  = document.getElementById('simPath');
+  const dot = document.getElementById('simDot');
+  const pnl = document.getElementById('simPnl');
+  const res = document.getElementById('simResult');
+  const btns = document.querySelectorAll('.sim-btn');
+  const GREEN = '#1E8E5E', RED = '#C23B3B';
+  const X0=50, X1=672, N=110, ENTRY=205, R1=62, STOP=267, TGT=81;
+  let raf = null;
+
+  function gen(mode){
+    const pts = []; let y = ENTRY;
+    for(let i=0;i<N;i++){
+      const t = i/(N-1);
+      let goal;
+      if(mode==='plan'){
+        goal = (t<.22) ? ENTRY + Math.sin(t*42)*9
+                       : ENTRY - ((t-.22)/.78)*(ENTRY-TGT);
+        y += (goal-y)*.26 + (Math.random()-.5)*14*(1-t*.45);
+        y = Math.min(y, STOP-10);          /* the stop protects — never breached */
+        y = Math.max(y, TGT-4);
+      } else {
+        goal = (t<.18) ? ENTRY - (t/.18)*36 /* fomo pop */
+                       : ENTRY - 36 + ((t-.18)/.82)*150; /* the slow bleed */
+        y += (goal-y)*.3 + (Math.random()-.5)*16;
+        y = Math.min(y, 322);
+      }
+      pts.push([X0 + (X1-X0)*t, y]);
+    }
+    pts[N-1][1] = (mode==='plan') ? TGT : 322;
+    return pts;
+  }
+
+  function play(mode){
+    cancelAnimationFrame(raf);
+    const pts = gen(mode), dur = 2600, t0 = performance.now();
+    const col = mode==='plan' ? GREEN : RED;
+    res.textContent = ''; res.className = 'sim-result';
+    pl.setAttribute('stroke', col); dot.setAttribute('fill', col);
+    btns.forEach(b=>b.classList.toggle('on', b.dataset.sim===mode));
+    function frame(now){
+      const k = Math.min(1, (now-t0)/dur);
+      const e = 1-Math.pow(1-k,2); /* ease-out */
+      const n = Math.max(2, Math.round(e*N));
+      const slice = pts.slice(0,n);
+      pl.setAttribute('points', slice.map(p=>p[0].toFixed(1)+','+p[1].toFixed(1)).join(' '));
+      const last = slice[slice.length-1];
+      dot.setAttribute('cx', last[0]); dot.setAttribute('cy', last[1]);
+      const r = (ENTRY-last[1])/R1;
+      pnl.textContent = (r>=0?'+':'')+r.toFixed(1)+'R';
+      pnl.setAttribute('fill', r>=0 ? GREEN : RED);
+      if(k<1){ raf = requestAnimationFrame(frame); }
+      else if(mode==='plan'){
+        res.innerHTML = '✦ Target hit — <b>+2R.</b> Entry planned, risk defined, exit executed.';
+        res.classList.add('win');
+      } else {
+        res.innerHTML = '✕ Stop ignored — <b>−1.9R and still falling.</b> No plan, no protection, just hope.';
+        res.classList.add('lose');
+      }
+    }
+    raf = requestAnimationFrame(frame);
+  }
+
+  btns.forEach(b=>b.addEventListener('click', ()=>play(b.dataset.sim)));
+  /* auto-play the disciplined trade when scrolled into view */
+  new IntersectionObserver((es,io)=>{
+    es.forEach(en=>{ if(en.isIntersecting){ play('plan'); io.disconnect(); } });
+  },{threshold:.35}).observe(svg);
+})();
+</script>
+</body>
+</html>
