@@ -4,6 +4,7 @@ import {
   getRazorpayClient,
   getRazorpayCredentials,
   getRazorpayErrorStatus,
+  getMissingRazorpayVariables,
   hmac,
 } from "@/lib/razorpay";
 
@@ -57,6 +58,9 @@ export async function POST(request: Request) {
           : unauthorized
             ? "Payment service authentication failed. Please contact support."
           : "We could not start checkout. Please try again.",
+        ...(notConfigured
+          ? { missingVariables: getMissingRazorpayVariables() }
+          : {}),
       },
       { status: notConfigured ? 503 : unauthorized ? 401 : 500 },
     );

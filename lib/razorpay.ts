@@ -12,6 +12,13 @@ export function getRazorpayCredentials() {
   return { keyId, keySecret };
 }
 
+export function getMissingRazorpayVariables() {
+  const missing: string[] = [];
+  if (!process.env.RAZORPAY_KEY_ID) missing.push("RAZORPAY_KEY_ID");
+  if (!process.env.RAZORPAY_KEY_SECRET) missing.push("RAZORPAY_KEY_SECRET");
+  return missing;
+}
+
 export function getRazorpayClient() {
   const { keyId, keySecret } = getRazorpayCredentials();
   return new Razorpay({
