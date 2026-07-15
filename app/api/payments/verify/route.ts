@@ -1,8 +1,8 @@
 import { isPaymentPlanId, PAYMENT_PLANS } from "@/lib/payment-plans";
 import {
   getRazorpayCredentials,
+  getRazorpayClient,
   hmac,
-  razorpayRequest,
   signaturesMatch,
 } from "@/lib/razorpay";
 
@@ -12,14 +12,6 @@ type VerificationBody = {
   razorpay_signature?: unknown;
   checkoutToken?: unknown;
   planId?: unknown;
-};
-
-type RazorpayPayment = {
-  id: string;
-  order_id: string;
-  amount: number;
-  currency: string;
-  status: "created" | "authorized" | "captured" | "refunded" | "failed";
 };
 
 export async function POST(request: Request) {
@@ -55,7 +47,8 @@ export async function POST(request: Request) {
       return Response.json({ error: "Payment verification failed." }, { status: 400 });
     }
 
-    const payment = await razorpayRequest<RazorpayPayment>(`/payments/${paymentId}`);
+    const razorpay = getRazorpayClient();
+    const payment = await razorpay.payments.fetch(paymentId);
     const detailsMatch =
       payment.order_id === orderId &&
       payment.amount === plan.amount &&

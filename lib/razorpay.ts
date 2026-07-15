@@ -1,6 +1,5 @@
 import { createHmac, timingSafeEqual } from "node:crypto";
-
-const RAZORPAY_API = "https://api.razorpay.com/v1";
+import Razorpay from "razorpay";
 
 export function getRazorpayCredentials() {
   const keyId = process.env.RAZORPAY_KEY_ID;
@@ -13,27 +12,19 @@ export function getRazorpayCredentials() {
   return { keyId, keySecret };
 }
 
-export async function razorpayRequest<T>(path: string, init?: RequestInit) {
+export function getRazorpayClient() {
   const { keyId, keySecret } = getRazorpayCredentials();
-  const response = await fetch(`${RAZORPAY_API}${path}`, {
-    ...init,
-    headers: {
-      Authorization: `Basic ${Buffer.from(`${keyId}:${keySecret}`).toString("base64")}`,
-      "Content-Type": "application/json",
-      ...init?.headers,
-    },
-    cache: "no-store",
+  return new Razorpay({
+    key_id: keyId,
+    key_secret: keySecret,
   });
+}
 
-  const body = (await response.json()) as T & {
-    error?: { description?: string };
-  };
-
-  if (!response.ok) {
-    throw new Error(body.error?.description || "Razorpay request failed");
-  }
-
-  return body;
+export function getRazorpayErrorStatus(error: unknown) {
+  if (typeof error !== "object" || error === null) return undefined;
+  const candidate = error as { statusCode?: unknown; status?: unknown };
+  const value = candidate.statusCode ?? candidate.status;
+  return typeof value === "number" ? value : undefined;
 }
 
 export function hmac(value: string, secret: string) {
