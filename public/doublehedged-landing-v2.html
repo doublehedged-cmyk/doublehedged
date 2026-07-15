@@ -334,6 +334,12 @@
   .pay-strip span::before{content:"—";color:var(--orange);margin-right:10px}
   .fine{text-align:center;font-family:var(--serif);font-style:italic;font-size:15.5px;
     color:var(--ink-soft);margin-top:22px}
+  .payment-status{min-height:28px;text-align:center;margin:20px auto 0;font-size:14px;
+    color:var(--ink-soft);max-width:680px}
+  .payment-status.working{color:var(--orange)}
+  .payment-status.success{color:#1E8E5E;font-weight:600}
+  .payment-status.error{color:#C23B3B;font-weight:600}
+  .pay-btn[aria-busy="true"]{opacity:.65;pointer-events:none}
 
   /* ================= PSYCHOLOGY (pull quote) ================= */
   .psy .quote{
@@ -719,7 +725,7 @@
           <li><span>Risk-first checklist</span></li>
           <li><span>Community learning room</span></li>
         </ul>
-        <a href="#checkout" class="btn btn-line">Start with Basics</a>
+        <a href="#checkout" class="btn btn-line pay-btn" data-plan="starter">Start with Basics</a>
       </div>
 
       <div class="pcard hero-plan reveal d1">
@@ -735,7 +741,7 @@
           <li><span><b>Weekly live chart review sessions</b></span></li>
           <li><span>Lifetime lesson access + certificate</span></li>
         </ul>
-        <a href="#checkout" class="btn">Choose Pro Trader <span class="o">→</span></a>
+        <a href="#checkout" class="btn pay-btn" data-plan="pro">Choose Pro Trader <span class="o">→</span></a>
       </div>
 
       <div class="pcard reveal d2">
@@ -749,7 +755,7 @@
           <li><span>15-min &amp; 75-min planning frameworks</span></li>
           <li><span>Mistake correction frameworks</span></li>
         </ul>
-        <a href="#checkout" class="btn btn-line">Join the Lab</a>
+        <a href="#checkout" class="btn btn-line pay-btn" data-plan="execution">Join the Lab</a>
       </div>
     </div>
 
@@ -758,6 +764,7 @@
       <span>Instant dashboard access</span>
       <span>UPI · Cards · Net banking · Wallets</span>
     </div>
+    <div id="paymentStatus" class="payment-status" role="status" aria-live="polite"></div>
     <p class="fine">education only — no tips, no guaranteed returns, no advisory.</p>
   </div>
 </section>
@@ -1029,6 +1036,95 @@
   new IntersectionObserver((es,io)=>{
     es.forEach(en=>{ if(en.isIntersecting){ play('plan'); io.disconnect(); } });
   },{threshold:.35}).observe(svg);
+})();
+
+/* ===== SECURE RAZORPAY CHECKOUT ===== */
+(function(){
+  const buttons = document.querySelectorAll('.pay-btn');
+  const status = document.getElementById('paymentStatus');
+  let sdkPromise;
+
+  function message(text, type){
+    status.textContent = text;
+    status.className = 'payment-status' + (type ? ' ' + type : '');
+  }
+
+  function loadCheckout(){
+    if(window.Razorpay) return Promise.resolve();
+    if(sdkPromise) return sdkPromise;
+    sdkPromise = new Promise((resolve, reject)=>{
+      const script = document.createElement('script');
+      script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+      script.onload = resolve;
+      script.onerror = ()=>reject(new Error('Could not load secure checkout.'));
+      document.head.appendChild(script);
+    });
+    return sdkPromise;
+  }
+
+  async function readJson(response){
+    const data = await response.json().catch(()=>({}));
+    if(!response.ok) throw new Error(data.error || 'Something went wrong.');
+    return data;
+  }
+
+  buttons.forEach(button=>button.addEventListener('click', async event=>{
+    event.preventDefault();
+    if(button.getAttribute('aria-busy') === 'true') return;
+    button.setAttribute('aria-busy', 'true');
+    message('Preparing secure checkout…', 'working');
+
+    try{
+      const [order] = await Promise.all([
+        fetch('/api/payments/create-order', {
+          method: 'POST',
+          headers: {'Content-Type':'application/json'},
+          body: JSON.stringify({planId: button.dataset.plan})
+        }).then(readJson),
+        loadCheckout()
+      ]);
+
+      const checkout = new window.Razorpay({
+        key: order.keyId,
+        amount: order.amount,
+        currency: order.currency,
+        name: 'Double Hedged',
+        description: order.description,
+        order_id: order.orderId,
+        theme: {color:'#5C0036'},
+        retry: {enabled:true},
+        handler: async response=>{
+          message('Payment received. Verifying securely…', 'working');
+          try{
+            const result = await fetch('/api/payments/verify', {
+              method: 'POST',
+              headers: {'Content-Type':'application/json'},
+              body: JSON.stringify({
+                ...response,
+                planId: order.planId,
+                checkoutToken: order.checkoutToken
+              })
+            }).then(readJson);
+            message('Payment successful! ' + result.planName + ' is confirmed. Payment ID: ' + result.paymentId, 'success');
+          }catch(error){
+            message(error.message + ' Save your payment confirmation and contact support.', 'error');
+          }
+        },
+        modal: {
+          ondismiss: ()=>message('Checkout closed. No payment was taken.', '')
+        }
+      });
+      checkout.on('payment.failed', response=>{
+        message(response.error.description || 'Payment failed. Please try again.', 'error');
+      });
+      checkout.open();
+      message('Secure checkout opened.', 'working');
+    }catch(error){
+      message(error.message || 'Could not start checkout. Please try again.', 'error');
+    }finally{
+      button.removeAttribute('aria-busy');
+    }
+  }));
 })();
 </script>
 </body>
