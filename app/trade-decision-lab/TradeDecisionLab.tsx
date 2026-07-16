@@ -4,6 +4,7 @@ import { ChangeEvent, MouseEvent, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import styles from "./lab.module.css";
 import MindsetCompass from "./MindsetCompass";
+import TradeEvidence, { StoredDecision } from "./TradeEvidence";
 
 const setupItems = [
   "Trend confirmed",
@@ -25,8 +26,6 @@ const truthItems = [
 ];
 
 type MarkerName = "Entry" | "Stop Loss" | "Target";
-type StoredDecision = { instrument: string; timeframe: string; quality: number; outcome: string; createdAt: string };
-
 const initialEmotions = Object.fromEntries(emotionItems.map((item) => [item, 5])) as Record<string, number>;
 const initialTruth = Object.fromEntries(truthItems.map((item) => [item, ""])) as Record<string, string>;
 
@@ -47,7 +46,7 @@ function Section({ number, title, note, children }: { number: string; title: str
 }
 
 export default function TradeDecisionLab() {
-  const [snapshot, setSnapshot] = useState({ broker: "", instrument: "", trend: "", timeframe: "", price: "", volatility: "", news: "No" });
+  const [snapshot, setSnapshot] = useState({ broker: "", instrument: "", direction: "Buy", trend: "", timeframe: "", price: "", volatility: "", news: "No" });
   const [reason, setReason] = useState("");
   const [checks, setChecks] = useState<string[]>([]);
   const [emotions, setEmotions] = useState(initialEmotions);
@@ -108,7 +107,7 @@ export default function TradeDecisionLab() {
       ? { label: "Valid but emotional. Review again", tone: "yellow" }
       : { label: "High-quality trade. Proceed", tone: "green" };
 
-  const requiredReady = Boolean(snapshot.broker && snapshot.instrument && snapshot.trend && snapshot.timeframe && snapshot.price && snapshot.volatility && reason.length >= 100 && checks.length === setupItems.length && account && willing && entry && stop && daily && Object.keys(markers).length === 3 && acknowledged && paperChoice && Object.values(truth).every(Boolean) && oneSentence.trim());
+  const requiredReady = Boolean(snapshot.broker && snapshot.instrument && snapshot.direction && snapshot.trend && snapshot.timeframe && snapshot.price && snapshot.volatility && reason.length >= 100 && checks.length === setupItems.length && account && willing && entry && stop && daily && Object.keys(markers).length === 3 && acknowledged && paperChoice && Object.values(truth).every(Boolean) && oneSentence.trim());
   const comparable = history.filter((item) => item.instrument.toLowerCase() === snapshot.instrument.toLowerCase() && item.timeframe === snapshot.timeframe);
 
   function updateObject<T extends Record<string, string>>(setter: React.Dispatch<React.SetStateAction<T>>, key: string, value: string) {
@@ -132,7 +131,8 @@ export default function TradeDecisionLab() {
 
   function saveDecision() {
     if (seconds !== 0 || !requiredReady) return;
-    const decision: StoredDecision = { instrument: snapshot.instrument, timeframe: snapshot.timeframe, quality: scores.overall, outcome: outcome.tone, createdAt: new Date().toISOString() };
+    const createdAt = new Date().toISOString();
+    const decision: StoredDecision = { id: crypto.randomUUID(), instrument: snapshot.instrument, timeframe: snapshot.timeframe, direction: snapshot.direction as "Buy" | "Sell", entry, plannedRisk: willing, sleep: Number(physical.sleep), fomo: emotions.FOMO, revenge: emotions.Revenge, quality: scores.overall, outcome: outcome.tone, createdAt };
     const next = [decision, ...history].slice(0, 100);
     localStorage.setItem("dh-trade-decisions", JSON.stringify(next));
     setHistory(next);
@@ -156,13 +156,20 @@ export default function TradeDecisionLab() {
         <MindsetCompass />
       </div>
 
-      <div className={styles.layout}>
+      <nav className={styles.labNav} aria-label="Trade Decision Lab sections">
+        <a href="#pre-trade">Pre-trade decision</a>
+        <a href="#outcome-review">Outcome review</a>
+        <a href="#evidence-score">Evidence score</a>
+      </nav>
+
+      <div className={styles.layout} id="pre-trade">
         <div className={styles.formColumn}>
           <Section number="01" title="Market Snapshot">
             <div className={styles.grid3}>
               <Field label="Date & time"><input value={new Date().toLocaleString("en-IN")} disabled /></Field>
               <Field label="Broker"><input value={snapshot.broker} onChange={(e) => updateObject(setSnapshot, "broker", e.target.value)} placeholder="Zerodha, Groww…" /></Field>
               <Field label="Instrument"><input value={snapshot.instrument} onChange={(e) => updateObject(setSnapshot, "instrument", e.target.value)} placeholder="NIFTY 50" /></Field>
+              <Field label="Direction"><select value={snapshot.direction} onChange={(e) => updateObject(setSnapshot, "direction", e.target.value)}><option>Buy</option><option>Sell</option></select></Field>
               <Field label="Index trend"><select value={snapshot.trend} onChange={(e) => updateObject(setSnapshot, "trend", e.target.value)}><option value="">Select</option><option>Bullish</option><option>Bearish</option><option>Sideways</option></select></Field>
               <Field label="Timeframe"><select value={snapshot.timeframe} onChange={(e) => updateObject(setSnapshot, "timeframe", e.target.value)}><option value="">Select</option><option>5 min</option><option>15 min</option><option>75 min</option><option>Daily</option></select></Field>
               <Field label="Current price"><input type="number" value={snapshot.price} onChange={(e) => updateObject(setSnapshot, "price", e.target.value)} /></Field>
@@ -254,6 +261,8 @@ export default function TradeDecisionLab() {
             <button type="button" className={styles.proceed} disabled={seconds !== 0 || !requiredReady || riskBlocked} onClick={saveDecision}>{saved ? "Decision recorded ✓" : seconds === 0 ? "Record decision & proceed" : "Proceed locked"}</button>
             <p className={styles.disclaimer}>This journal does not connect to or execute orders with your broker.</p>
           </Section>
+
+          <TradeEvidence history={history} onHistoryChange={setHistory} />
         </div>
 
         <aside className={styles.sidebar}>
