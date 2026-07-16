@@ -150,13 +150,22 @@ export default function TradeDecisionLab() {
 
       <div className={styles.heroShell}>
         <div className={styles.hero}>
-          <p className={styles.kicker}>Pre-trade discipline system</p>
-          <h1>Trade Decision <em>Lab</em></h1>
+          <p className={styles.kicker}>Your behavioral risk manager</p>
+          <h1>Stop the trade your future self will <em>regret.</em></h1>
           <blockquote>“If you can&apos;t justify the trade, you shouldn&apos;t take it.”</blockquote>
-          <p>Complete every gate before making a live decision. This tool records judgment; it does not place a broker order.</p>
+          <p>Double Hedged checks your setup, risk, emotions and personal history before money is at risk—so fewer decisions come from FOMO, revenge or impulse.</p>
+          <div className={styles.heroCtas}><a href="#pre-trade">Run my free trade check <span>→</span></a><a href="#evidence-score">See my behavioral evidence</a></div>
         </div>
         <MindsetCompass />
       </div>
+
+      <section className={styles.valueStrip} aria-label="Trade Decision Lab value">
+        <article><span>Before the trade</span><strong>Expose weak logic</strong><p>Define the setup, invalidation and risk before conviction becomes expensive.</p></article>
+        <article><span>At the emotional moment</span><strong>Interrupt impulse</strong><p>Catch FOMO, revenge and oversized risk while there is still time to step away.</p></article>
+        <article><span>After the outcome</span><strong>Build personal evidence</strong><p>Learn whether your process works instead of judging yourself by one lucky result.</p></article>
+      </section>
+
+      <div className={styles.trustLine}><span>Not a signal service</span><span>No profit promises</span><span>Your reminder stays in this browser</span><span>Built for Indian traders</span></div>
 
       <nav className={styles.labNav} aria-label="Trade Decision Lab sections">
         <a href="#pre-trade">Pre-trade decision</a>

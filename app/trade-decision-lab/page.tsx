@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import TradeDecisionLab from "./TradeDecisionLab";
 
 export const metadata: Metadata = {
-  title: "Trade Decision Lab | Double Hedged",
+  title: "Behavioral Risk Manager for Traders | Double Hedged",
   description:
-    "A pre-trade discipline workflow for market context, emotion, risk, and decision quality.",
+    "Catch FOMO, revenge trading, weak setups, and excessive risk before placing a live trade with the Double Hedged Trade Decision Lab.",
 };
 
 export default function TradeDecisionLabPage() {
