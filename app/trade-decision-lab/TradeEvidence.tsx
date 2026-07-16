@@ -122,7 +122,7 @@ export default function TradeEvidence({ history, onHistoryChange }: { history: S
 
   return <>
     <section id="outcome-review" className={`${styles.card} ${styles.evidenceCard}`}>
-      <div className={styles.sectionHead}><span className={styles.number}>14</span><div><h2>Trade Outcome Review</h2><p>Close the loop. A result without process context teaches the wrong lesson.</p></div></div>
+      <div className={styles.sectionHead}><span className={styles.number}>15</span><div><h2>Trade Outcome Review</h2><p>Close the loop. A result without process context teaches the wrong lesson.</p></div></div>
       {!unreviewed.length ? <div className={styles.empty}>No unreviewed decisions. Record a final trade decision first, then return after exit.</div> : <>
         <label className={styles.field}><span>Decision to review</span><select value={selectedId} onChange={(event) => setSelectedId(event.target.value)}><option value="">Select a recorded decision</option>{unreviewed.map((item) => <option key={item.id || item.createdAt} value={item.id || item.createdAt}>{new Date(item.createdAt).toLocaleDateString("en-IN")} · {item.instrument} · {item.timeframe}</option>)}</select></label>
         {selected ? <div className={styles.reviewBody}>
@@ -138,7 +138,7 @@ export default function TradeEvidence({ history, onHistoryChange }: { history: S
     </section>
 
     <section id="evidence-score" className={`${styles.card} ${styles.evidenceCard}`}>
-      <div className={styles.sectionHead}><span className={styles.number}>15</span><div><h2>Trader Evidence Score</h2><p>Measured from completed outcomes—not confidence, promises, or isolated wins.</p></div></div>
+      <div className={styles.sectionHead}><span className={styles.number}>16</span><div><h2>Trader Evidence Score</h2><p>Measured from completed outcomes—not confidence, promises, or isolated wins.</p></div></div>
       <div className={`${styles.evidenceVerdict} ${styles[classification.tone]}`}><span>{reviewed.length} reviewed trade{reviewed.length === 1 ? "" : "s"}</span><strong>{classification.title}</strong><p>{classification.copy}</p></div>
       <div className={styles.evidenceMetrics}><div><span>Net P&L</span><strong>{money(metrics.net)}</strong></div><div><span>Win rate</span><strong>{metrics.winRate.toFixed(1)}%</strong></div><div><span>Expectancy</span><strong>{money(metrics.expectancy)}</strong></div><div><span>Profit factor</span><strong>{Number.isFinite(metrics.profitFactor) ? metrics.profitFactor.toFixed(2) : "∞"}</strong></div><div><span>Average R</span><strong>{metrics.avgR.toFixed(2)}R</strong></div><div><span>Max drawdown</span><strong>{money(metrics.maxDrawdown)}</strong></div><div><span>Plan adherence</span><strong>{metrics.adherence.toFixed(0)}%</strong></div><div><span>Average win / loss</span><strong>{money(metrics.avgWin)} / {money(metrics.avgLoss)}</strong></div></div>
       <h3 className={styles.evidenceTitle}>Process vs outcome</h3>

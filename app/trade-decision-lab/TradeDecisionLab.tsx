@@ -5,6 +5,7 @@ import Link from "next/link";
 import styles from "./lab.module.css";
 import MindsetCompass from "./MindsetCompass";
 import TradeEvidence, { StoredDecision } from "./TradeEvidence";
+import PersonalRealityCheck from "./PersonalRealityCheck";
 
 const setupItems = [
   "Trend confirmed",
@@ -63,6 +64,7 @@ export default function TradeDecisionLab() {
   const [seconds, setSeconds] = useState<number | null>(null);
   const [saved, setSaved] = useState(false);
   const [history, setHistory] = useState<StoredDecision[]>([]);
+  const [realityComplete, setRealityComplete] = useState(false);
 
   useEffect(() => {
     const frame = window.requestAnimationFrame(() => {
@@ -107,7 +109,7 @@ export default function TradeDecisionLab() {
       ? { label: "Valid but emotional. Review again", tone: "yellow" }
       : { label: "High-quality trade. Proceed", tone: "green" };
 
-  const requiredReady = Boolean(snapshot.broker && snapshot.instrument && snapshot.direction && snapshot.trend && snapshot.timeframe && snapshot.price && snapshot.volatility && reason.length >= 100 && checks.length === setupItems.length && account && willing && entry && stop && daily && Object.keys(markers).length === 3 && acknowledged && paperChoice && Object.values(truth).every(Boolean) && oneSentence.trim());
+  const requiredReady = Boolean(snapshot.broker && snapshot.instrument && snapshot.direction && snapshot.trend && snapshot.timeframe && snapshot.price && snapshot.volatility && reason.length >= 100 && checks.length === setupItems.length && account && willing && entry && stop && daily && Object.keys(markers).length === 3 && acknowledged && paperChoice && Object.values(truth).every(Boolean) && oneSentence.trim() && realityComplete);
   const comparable = history.filter((item) => item.instrument.toLowerCase() === snapshot.instrument.toLowerCase() && item.timeframe === snapshot.timeframe);
 
   function updateObject<T extends Record<string, string>>(setter: React.Dispatch<React.SetStateAction<T>>, key: string, value: string) {
@@ -251,11 +253,15 @@ export default function TradeDecisionLab() {
             <Field label="Explain this trade in one sentence"><input value={oneSentence} onChange={(e) => setOneSentence(e.target.value)} placeholder="I am taking this trade because…" /></Field>
           </Section>
 
-          <Section number="12" title="60-Second Lock" note="Professional traders wait. Impulsive traders click.">
+          <Section number="12" title="Personal Reality Check" note="A calm reminder from the person who knows your trading history best: you.">
+            <PersonalRealityCheck onComplete={setRealityComplete} />
+          </Section>
+
+          <Section number="13" title="60-Second Lock" note="Professional traders wait. Impulsive traders click.">
             {seconds === null ? <button type="button" className={styles.lockButton} disabled={!requiredReady} onClick={() => setSeconds(60)}>{requiredReady ? "Begin 60-second lock" : "Complete every gate to begin"}</button> : <div className={styles.timer}><strong>{seconds}</strong><span>{seconds === 0 ? "Pause complete. The decision is yours." : "seconds — breathe, reread, reconsider"}</span></div>}
           </Section>
 
-          <Section number="13" title="Final Decision">
+          <Section number="14" title="Final Decision">
             <div className={styles.scoreGrid}>{Object.entries(scores).filter(([key]) => key !== "overall").map(([key, value]) => <div key={key}><span>{key} score</span><strong>{value}</strong></div>)}</div>
             <div className={`${styles.verdict} ${styles[outcome.tone]}`}><span>Overall trade quality · {scores.overall}/100</span><strong>{outcome.label}</strong></div>
             <button type="button" className={styles.proceed} disabled={seconds !== 0 || !requiredReady || riskBlocked} onClick={saveDecision}>{saved ? "Decision recorded ✓" : seconds === 0 ? "Record decision & proceed" : "Proceed locked"}</button>
